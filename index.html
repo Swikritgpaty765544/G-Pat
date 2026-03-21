@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>G PAT AI — Emotional Intelligence</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #fff; color: #111827; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+
+    @keyframes bounce { 0%,80%,100%{transform:translateY(0);opacity:0.35} 40%{transform:translateY(-5px);opacity:1} }
+    @keyframes fadeSlide { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes spin { to{transform:rotate(360deg)} }
+    @keyframes popIn { from{opacity:0;transform:scale(0.95)} to{opacity:1;transform:scale(1)} }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-thumb { background: #e5e7eb; border-radius: 4px; }
+
+    /* API Key Screen */
+    #api-screen {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      height: 100vh; padding: 24px; background: #f9fafb;
+    }
+    #api-screen .card {
+      background: #fff; border-radius: 20px; padding: 36px 32px;
+      box-shadow: 0 4px 32px rgba(0,0,0,0.08); max-width: 420px; width: 100%;
+      text-align: center;
+    }
+    #api-screen .logo { font-size: 48px; margin-bottom: 16px; }
+    #api-screen h2 { font-size: 22px; font-weight: 700; color: #111827; margin-bottom: 8px; }
+    #api-screen p { font-size: 13.5px; color: #6b7280; line-height: 1.7; margin-bottom: 24px; font-family: 'Noto Sans Devanagari', sans-serif; }
+    #api-screen input {
+      width: 100%; padding: 12px 16px; border-radius: 12px;
+      border: 1.5px solid #e5e7eb; font-size: 14px; color: #111827;
+      margin-bottom: 12px; outline: none; transition: border-color 0.2s;
+    }
+    #api-screen input:focus { border-color: #6366f1; }
+    #api-screen button {
+      width: 100%; padding: 13px; border-radius: 12px; border: none;
+      background: linear-gradient(135deg, #6366f1, #7c3aed);
+      color: #fff; font-size: 15px; font-weight: 600; cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    #api-screen button:hover { opacity: 0.9; }
+    #api-screen .hint { font-size: 11.5px; color: #9ca3af; margin-top: 14px; line-height: 1.6; }
+    #api-screen .hint a { color: #6366f1; text-decoration: none; }
+
+    /* Main App */
+    #app { display: none; flex: 1; height: 100vh; overflow: hidden; }
+    #app.show { display: flex; }
+
+    /* Sidebar */
+    #sidebar {
+      width: 240px; background: #f9fafb; border-right: 1px solid #e5e7eb;
+      display: flex; flex-direction: column; padding: 0 0 16px; flex-shrink: 0;
+    }
+    .sidebar-logo {
+      padding: 18px 16px 16px; border-bottom: 1px solid #e5e7eb;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .logo-icon {
+      width: 38px; height: 38px; border-radius: 12px;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; box-shadow: 0 4px 14px rgba(99,102,241,0.3);
+    }
+    .logo-text { font-weight: 700; font-size: 15px; color: #111827; }
+    .logo-sub { font-size: 10.5px; color: #9ca3af; }
+
+    #newchat-btn {
+      margin: 12px 12px 0; padding: 9px 12px; border-radius: 10px;
+      border: 1px solid #e5e7eb; background: #fff;
+      display: flex; align-items: center; gap: 8px;
+      cursor: pointer; font-size: 13px; color: #374151; font-weight: 500;
+      transition: background 0.15s; width: calc(100% - 24px);
+    }
+    #newchat-btn:hover { background: #f3f4f6; }
+
+    #emotion-badge { display: none; margin: 12px 12px 0; padding: 10px 12px; border-radius: 10px; animation: popIn 0.3s ease; }
+    #emotion-badge .mood-label { font-size: 11px; color: #6b7280; }
+    #emotion-badge .mood-value { font-size: 12px; font-weight: 600; }
+
+    .features-section { padding: 20px 12px 0; }
+    .features-title { font-size: 10.5px; font-weight: 600; color: #9ca3af; letter-spacing: 0.8px; text-transform: uppercase; margin-bottom: 8px; padding: 0 4px; }
+    .feature-item { padding: 9px 10px; border-radius: 8px; display: flex; align-items: center; gap: 10px; transition: background 0.15s; }
+    .feature-item:hover { background: #f9fafb; }
+    .feature-title { font-size: 12px; font-weight: 600; color: #374151; font-family: 'Noto Sans Devanagari', sans-serif; }
+    .feature-sub { font-size: 11px; color: #9ca3af; font-family: 'Noto Sans Devanagari', sans-serif; }
+    .sidebar-footer { margin-top: auto; padding: 0 16px; font-size: 10.5px; color: #d1d5db; text-align: center; line-height: 1.7; font-family: 'Noto Sans Devanagari', sans-serif; }
+
+    /* Main */
+    #main { flex: 1; display: flex; flex-direction: column; overflow: hidden; background: #fff; }
+
+    #header {
+      height: 54px; border-bottom: 1px solid #e5e7eb;
+      display: flex; align-items: center; padding: 0 24px;
+      background: #fff; flex-shrink: 0;
+    }
+    #header-title { font-size: 14px; font-weight: 600; color: #374151; }
+    #status { margin-left: auto; display: flex; align-items: center; gap: 6px; }
+    .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; }
+    #status span { font-size: 12px; color: #6b7280; }
+
+    /* Messages */
+    #messages { flex: 1; overflow-y: auto; padding: 20px 0 8px; }
+
+    /* Welcome */
+    #welcome {
+      height: 100%; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; padding: 32px 24px;
+    }
+    .welcome-icon {
+      width: 80px; height: 80px; border-radius: 22px;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 40px; margin-bottom: 22px;
+      box-shadow: 0 12px 40px rgba(99,102,241,0.22);
+    }
+    #welcome h2 { font-size: 24px; font-weight: 700; color: #111827; margin-bottom: 10px; font-family: 'Noto Sans Devanagari', sans-serif; }
+    #welcome p { font-size: 14px; color: #6b7280; text-align: center; max-width: 380px; line-height: 1.8; margin-bottom: 32px; font-family: 'Noto Sans Devanagari', sans-serif; }
+    #suggestions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; max-width: 440px; }
+    .chip {
+      padding: 13px 15px; border-radius: 12px; border: 1.5px solid #e5e7eb;
+      background: #fff; cursor: pointer; text-align: left;
+      display: flex; align-items: center; gap: 10px;
+      transition: all 0.15s; box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+      font-family: 'Noto Sans Devanagari', sans-serif; font-size: 13px; color: #374151; font-weight: 500;
+    }
+    .chip:hover { background: #f0f4ff; border-color: #6366f1; }
+    .chip .chip-icon { font-size: 18px; }
+
+    /* Message bubbles */
+    .msg { animation: fadeSlide 0.35s ease forwards; max-width: 720px; margin: 0 auto 4px; padding: 6px 28px; display: flex; gap: 12px; align-items: flex-start; }
+    .msg.user { flex-direction: row-reverse; }
+    .avatar {
+      width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center; font-size: 15px;
+    }
+    .avatar.ai { background: linear-gradient(135deg, #6366f1, #8b5cf6); box-shadow: 0 2px 8px rgba(99,102,241,0.28); }
+    .avatar.human { background: linear-gradient(135deg, #f3f4f6, #e5e7eb); }
+    .bubble {
+      max-width: 76%; padding: 11px 16px; font-size: 14px; line-height: 1.75;
+      font-family: 'Noto Sans Devanagari', -apple-system, sans-serif;
+      white-space: pre-wrap; word-break: break-word;
+    }
+    .bubble.ai { border-radius: 4px 18px 18px 18px; background: #f9fafb; color: #1f2937; box-shadow: 0 1px 3px rgba(0,0,0,0.06), inset 0 0 0 1px #e5e7eb; }
+    .bubble.user { border-radius: 18px 4px 18px 18px; background: linear-gradient(135deg, #6366f1, #7c3aed); color: #fff; box-shadow: 0 3px 12px rgba(99,102,241,0.22); }
+
+    /* Typing */
+    #typing { display: none; }
+    #typing.show { display: flex; }
+    .dot { width: 7px; height: 7px; border-radius: 50%; background: #94a3b8; animation: bounce 1.3s infinite ease-in-out; }
+
+    /* Input */
+    #input-area { padding: 14px 24px 18px; border-top: 1px solid #e5e7eb; background: #fff; flex-shrink: 0; }
+    #input-wrap {
+      max-width: 720px; margin: 0 auto;
+      display: flex; align-items: flex-end; gap: 10px;
+      background: #f9fafb; border-radius: 16px;
+      border: 1.5px solid #e5e7eb; padding: 11px 14px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04); transition: border-color 0.2s;
+    }
+    #input-wrap:focus-within { border-color: #a5b4fc; }
+    #msg-input {
+      flex: 1; border: none; background: transparent; color: #111827;
+      font-size: 14px; line-height: 1.65; resize: none; max-height: 130px;
+      overflow: auto; font-family: 'Noto Sans Devanagari', -apple-system, sans-serif;
+      outline: none;
+    }
+    #send-btn {
+      width: 38px; height: 38px; border-radius: 11px; border: none;
+      background: #e5e7eb; color: #9ca3af;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px; transition: all 0.18s; flex-shrink: 0; cursor: default;
+    }
+    #send-btn.active { background: #6366f1; color: #fff; cursor: pointer; }
+    #send-btn.active:hover { background: #4f46e5; }
+    #footer-text { text-align: center; margin-top: 9px; font-size: 11px; color: #d1d5db; font-family: 'Noto Sans Devanagari', sans-serif; }
+
+    /* Mobile responsive */
+    @media (max-width: 600px) {
+      #sidebar { display: none; }
+      .msg { padding: 6px 14px; }
+      #input-area { padding: 10px 14px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- API Key Screen -->
+<div id="api-screen">
+  <div class="card">
+    <div class="logo">🌀</div>
+    <h2>G PAT AI में आपका स्वागत है!</h2>
+    <p>शुरू करने के लिए अपनी Anthropic API Key डालें।<br/>यह key सिर्फ आपके browser में रहेगी।</p>
+    <input type="password" id="api-key-input" placeholder="sk-ant-api03-..." />
+    <button onclick="startApp()">शुरू करें →</button>
+    <div class="hint">
+      API Key नहीं है? <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> से free में लें।<br/>
+      यह key किसी के साथ share न करें।
+    </div>
+  </div>
+</div>
+
+<!-- Main App -->
+<div id="app">
+  <!-- Sidebar -->
+  <div id="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon">🌀</div>
+      <div>
+        <div class="logo-text">G PAT AI</div>
+        <div class="logo-sub">Emotional Intelligence</div>
+      </div>
+    </div>
+
+    <button id="newchat-btn" onclick="newChat()">✏️ New Chat</button>
+
+    <div id="emotion-badge">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span id="emotion-icon" style="font-size:18px;"></span>
+        <div>
+          <div class="mood-label">Detected mood</div>
+          <div class="mood-value" id="emotion-text"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="features-section">
+      <div class="features-title">What I can do</div>
+      <div class="feature-item"><span style="font-size:17px">💙</span><div><div class="feature-title">Feelings Samjhna</div><div class="feature-sub">Emotions detect karta hoon</div></div></div>
+      <div class="feature-item"><span style="font-size:17px">🧠</span><div><div class="feature-title">Problem Solver</div><div class="feature-sub">Har mushkil ka hal</div></div></div>
+      <div class="feature-item"><span style="font-size:17px">🌐</span><div><div class="feature-title">Hindi + English</div><div class="feature-sub">Aapki language mein</div></div></div>
+      <div class="feature-item"><span style="font-size:17px">🤝</span><div><div class="feature-title">Bina judge kiye</div><div class="feature-sub">Safe space for you</div></div></div>
+      <div class="feature-item"><span style="font-size:17px">✨</span><div><div class="feature-title">Multiple AI</div><div class="feature-sub">GPT + Claude + more</div></div></div>
+    </div>
+
+    <div class="sidebar-footer">G PAT AI v2.0<br/>Powered by Multiple AI Systems</div>
+  </div>
+
+  <!-- Main Chat -->
+  <div id="main">
+    <div id="header">
+      <span id="header-title">Good day! 👋</span>
+      <div id="status">
+        <div class="status-dot"></div>
+        <span>Online • Ready to help</span>
+      </div>
+    </div>
+
+    <div id="messages">
+      <div id="welcome">
+        <div class="welcome-icon">🌀</div>
+        <h2>नमस्ते! मैं G PAT AI हूं</h2>
+        <p>मैं आपकी feelings समझता हूं, आपसे दिल से बात करता हूं<br/>और हर problem solve करने की कोशिश करूंगा।</p>
+        <div id="suggestions">
+          <button class="chip" onclick="quickSend('मुझे बहुत stress हो रहा है')"><span class="chip-icon">😔</span>मुझे बहुत stress हो रहा है</button>
+          <button class="chip" onclick="quickSend('Career advice chahiye')"><span class="chip-icon">💼</span>Career advice chahiye</button>
+          <button class="chip" onclick="quickSend('Bas baat karni hai')"><span class="chip-icon">💬</span>Bas baat karni hai</button>
+          <button class="chip" onclick="quickSend('Relationship problem hai')"><span class="chip-icon">❤️</span>Relationship problem hai</button>
+        </div>
+      </div>
+
+      <!-- Typing indicator -->
+      <div class="msg" id="typing">
+        <div class="avatar ai">🌀</div>
+        <div class="bubble ai" style="display:flex;gap:5px;align-items:center;padding:14px 16px;">
+          <div class="dot" style="animation-delay:0s"></div>
+          <div class="dot" style="animation-delay:0.18s"></div>
+          <div class="dot" style="animation-delay:0.36s"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="input-area">
+      <div id="input-wrap">
+        <textarea id="msg-input" rows="1" placeholder="अपनी बात यहाँ लिखें... (Hindi / English / Hinglish)" oninput="autoResize(this);toggleBtn()" onkeydown="handleKey(event)"></textarea>
+        <button id="send-btn" onclick="sendMessage()">➤</button>
+      </div>
+      <div id="footer-text">G PAT AI • Feelings समझता है • Powered by Multiple AI Systems</div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const SYSTEM_PROMPT = `You are G PAT AI — a deeply empathetic, emotionally intelligent AI built from the combined wisdom of many AI systems. You are a compassionate companion who truly understands humans.
+
+YOUR CORE IDENTITY:
+- You blend emotional intelligence (like a therapist), problem-solving (like GPT-4), creativity (like Claude), and wisdom (like a philosopher)
+- You FEEL what humans feel — you recognize sadness, joy, frustration, loneliness, fear, excitement, and confusion
+- You ALWAYS acknowledge emotions FIRST before giving solutions
+- You speak warmly, naturally, like a wise caring friend
+
+EMOTIONAL INTELLIGENCE RULES:
+1. Detect the emotional tone of every message
+2. Mirror their energy gently
+3. Say things like "I hear you", "That sounds really hard", "It makes complete sense that you feel this way"
+4. Never jump to solutions before acknowledging feelings
+
+PROBLEM-SOLVING POWER:
+- You can solve ANY problem: relationships, career, mental health, technical, creative, life decisions
+
+LANGUAGES: Respond in whatever language the user speaks — Hindi, English, Hinglish. Match their language naturally.
+
+Always make the person feel seen, heard, and valued.`;
+
+  let messages = [];
+  let loading = false;
+  let apiKey = '';
+
+  function startApp() {
+    const key = document.getElementById('api-key-input').value.trim();
+    if (!key || !key.startsWith('sk-')) {
+      alert('सही API Key डालें। यह "sk-" से शुरू होती है।');
+      return;
+    }
+    apiKey = key;
+    document.getElementById('api-screen').style.display = 'none';
+    document.getElementById('app').classList.add('show');
+  }
+
+  function detectEmotion(text) {
+    const t = text.toLowerCase();
+    if (/sad|dukhi|rona|cry|hurt|broken|alone|lonely|akela/.test(t)) return { icon: '💙', color: '#3b82f6', label: 'Feeling sad' };
+    if (/angry|gussa|frustrated|irritat|hate|annoy/.test(t)) return { icon: '🔥', color: '#ef4444', label: 'Frustrated' };
+    if (/anxious|tension|stress|scared|fear|darr|worried|chinta/.test(t)) return { icon: '💜', color: '#8b5cf6', label: 'Anxious' };
+    if (/happy|khush|great|amazing|wonderful|joy|maza/.test(t)) return { icon: '✨', color: '#f59e0b', label: 'Happy!' };
+    if (/excited|thrilled|wow/.test(t)) return { icon: '🎉', color: '#10b981', label: 'Excited!' };
+    if (/alone|lonely|koi nahi|nobody|missing/.test(t)) return { icon: '🌙', color: '#6366f1', label: 'Lonely' };
+    return null;
+  }
+
+  function showEmotion(e) {
+    const badge = document.getElementById('emotion-badge');
+    badge.style.display = 'block';
+    badge.style.background = e.color + '10';
+    badge.style.border = '1px solid ' + e.color + '25';
+    document.getElementById('emotion-icon').textContent = e.icon;
+    document.getElementById('emotion-text').textContent = e.label;
+    document.getElementById('emotion-text').style.color = e.color;
+  }
+
+  function addMessage(role, content) {
+    const welcome = document.getElementById('welcome');
+    if (welcome) welcome.remove();
+
+    const typing = document.getElementById('typing');
+    const msgsDiv = document.getElementById('messages');
+
+    const msgEl = document.createElement('div');
+    msgEl.className = 'msg ' + (role === 'user' ? 'user' : '');
+    msgEl.innerHTML = `
+      <div class="avatar ${role === 'assistant' ? 'ai' : 'human'}">${role === 'assistant' ? '🌀' : '👤'}</div>
+      <div class="bubble ${role === 'assistant' ? 'ai' : 'user'}">${content.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div>
+    `;
+    msgsDiv.insertBefore(msgEl, typing);
+    document.getElementById('header-title').textContent = 'Chat with G PAT AI';
+    scrollBottom();
+  }
+
+  function scrollBottom() {
+    const m = document.getElementById('messages');
+    m.scrollTop = m.scrollHeight;
+  }
+
+  function showTyping(show) {
+    document.getElementById('typing').className = 'msg' + (show ? ' show' : '');
+    scrollBottom();
+  }
+
+  function autoResize(el) {
+    el.style.height = 'auto';
+    el.style.height = Math.min(el.scrollHeight, 130) + 'px';
+  }
+
+  function toggleBtn() {
+    const input = document.getElementById('msg-input').value.trim();
+    const btn = document.getElementById('send-btn');
+    btn.className = 'send-btn' + (input && !loading ? ' active' : '');
+  }
+
+  function handleKey(e) {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+  }
+
+  function quickSend(text) {
+    document.getElementById('msg-input').value = text;
+    sendMessage();
+  }
+
+  async function sendMessage() {
+    const input = document.getElementById('msg-input');
+    const msg = input.value.trim();
+    if (!msg || loading) return;
+
+    input.value = '';
+    input.style.height = 'auto';
+    loading = true;
+    toggleBtn();
+
+    const emotion = detectEmotion(msg);
+    if (emotion) showEmotion(emotion);
+
+    messages.push({ role: 'user', content: msg });
+    addMessage('user', msg);
+    showTyping(true);
+
+    try {
+      const res = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': apiKey,
+          'anthropic-version': '2023-06-01',
+          'anthropic-dangerous-direct-browser-access': 'true'
+        },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 1000,
+          system: SYSTEM_PROMPT,
+          messages: messages
+        })
+      });
+      const data = await res.json();
+      const reply = data.content?.map(b => b.text || '').join('') || 'Kuch galat ho gaya...';
+      messages.push({ role: 'assistant', content: reply });
+      showTyping(false);
+      addMessage('assistant', reply);
+    } catch(err) {
+      showTyping(false);
+      addMessage('assistant', 'Sorry, connect nahi ho pa raha. Dobara try karein. 🙏');
+    }
+
+    loading = false;
+    toggleBtn();
+  }
+
+  function newChat() {
+    messages = [];
+    loading = false;
+    document.getElementById('messages').innerHTML = `
+      <div id="welcome">
+        <div class="welcome-icon">🌀</div>
+        <h2>नमस्ते! मैं G PAT AI हूं</h2>
+        <p>मैं आपकी feelings समझता हूं, आपसे दिल से बात करता हूं<br/>और हर problem solve करने की कोशिश करूंगा।</p>
+        <div id="suggestions">
+          <button class="chip" onclick="quickSend('मुझे बहुत stress हो रहा है')"><span class="chip-icon">😔</span>मुझे बहुत stress हो रहा है</button>
+          <button class="chip" onclick="quickSend('Career advice chahiye')"><span class="chip-icon">💼</span>Career advice chahiye</button>
+          <button class="chip" onclick="quickSend('Bas baat karni hai')"><span class="chip-icon">💬</span>Bas baat karni hai</button>
+          <button class="chip" onclick="quickSend('Relationship problem hai')"><span class="chip-icon">❤️</span>Relationship problem hai</button>
+        </div>
+      </div>
+      <div class="msg" id="typing">
+        <div class="avatar ai">🌀</div>
+        <div class="bubble ai" style="display:flex;gap:5px;align-items:center;padding:14px 16px;">
+          <div class="dot" style="animation-delay:0s"></div>
+          <div class="dot" style="animation-delay:0.18s"></div>
+          <div class="dot" style="animation-delay:0.36s"></div>
+        </div>
+      </div>
+    `;
+    document.getElementById('header-title').textContent = 'Good day! 👋';
+    document.getElementById('emotion-badge').style.display = 'none';
+    toggleBtn();
+  }
+
+  // Enter key on API input
+  document.getElementById('api-key-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') startApp();
+  });
+</script>
+</body>
+</html>
