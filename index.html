@@ -1,168 +1,139 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>G PAT AI</title>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600&display=swap" rel="stylesheet">
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #fff; color: #111827; height: 100dvh; display: flex; flex-direction: column; overflow: hidden; }
-    @keyframes bounce { 0%,80%,100%{transform:translateY(0);opacity:0.35} 40%{transform:translateY(-5px);opacity:1} }
-    @keyframes fadeSlide { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
-    ::-webkit-scrollbar { width: 4px; }
-    ::-webkit-scrollbar-thumb { background: #e5e7eb; border-radius: 4px; }
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>G PAT AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#fff;color:#111827;height:100dvh;display:flex;flex-direction:column;overflow:hidden;}
+@keyframes bounce{0%,80%,100%{transform:translateY(0);opacity:.35}40%{transform:translateY(-5px);opacity:1}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
-    /* Setup Screen */
-    #setup-screen { display:flex; flex-direction:column; align-items:center; justify-content:center; height:100dvh; padding:20px; background:#f9fafb; }
-    .card { background:#fff; border-radius:20px; padding:32px 24px; box-shadow:0 4px 32px rgba(0,0,0,0.08); max-width:400px; width:100%; text-align:center; }
-    .card-logo { font-size:52px; margin-bottom:14px; }
-    .card h2 { font-size:20px; font-weight:700; color:#111827; margin-bottom:6px; font-family:'Noto Sans Devanagari',sans-serif; }
-    .card p { font-size:13px; color:#6b7280; line-height:1.7; margin-bottom:14px; font-family:'Noto Sans Devanagari',sans-serif; }
-    .free-badge { display:inline-block; background:#dcfce7; color:#16a34a; font-size:11px; font-weight:600; padding:3px 10px; border-radius:20px; margin-bottom:14px; }
-    .steps { text-align:left; background:#f8fafc; border-radius:12px; padding:14px; margin-bottom:14px; }
-    .step { display:flex; gap:8px; align-items:flex-start; margin-bottom:7px; font-size:12.5px; color:#4b5563; font-family:'Noto Sans Devanagari',sans-serif; line-height:1.5; }
-    .step:last-child { margin-bottom:0; }
-    .sn { min-width:18px; height:18px; border-radius:50%; background:#6366f1; color:#fff; font-size:10px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:2px; }
-    .step a { color:#6366f1; font-weight:600; text-decoration:none; }
-    .inp { width:100%; padding:11px 14px; border-radius:11px; border:1.5px solid #e5e7eb; font-size:14px; color:#111827; margin-bottom:10px; outline:none; transition:border-color 0.2s; font-family:'Noto Sans Devanagari',sans-serif; }
-    .inp:focus { border-color:#6366f1; }
-    .inp.mono { font-family:monospace; font-size:13px; }
-    .btn-main { width:100%; padding:13px; border-radius:11px; border:none; background:linear-gradient(135deg,#6366f1,#7c3aed); color:#fff; font-size:15px; font-weight:600; cursor:pointer; font-family:'Noto Sans Devanagari',sans-serif; }
-    .hint { font-size:11px; color:#9ca3af; margin-top:10px; font-family:'Noto Sans Devanagari',sans-serif; }
+/* Setup */
+#setup{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100dvh;padding:20px;background:#f9fafb;}
+.card{background:#fff;border-radius:20px;padding:28px 22px;box-shadow:0 4px 32px rgba(0,0,0,.08);max-width:400px;width:100%;text-align:center;}
+.card h1{font-size:42px;margin-bottom:10px;}
+.card h2{font-size:19px;font-weight:700;margin-bottom:6px;font-family:'Noto Sans Devanagari',sans-serif;}
+.badge{display:inline-block;background:#dcfce7;color:#16a34a;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;margin-bottom:14px;}
+.steps{text-align:left;background:#f8fafc;border-radius:12px;padding:12px;margin-bottom:12px;}
+.step{display:flex;gap:8px;margin-bottom:6px;font-size:12.5px;color:#4b5563;font-family:'Noto Sans Devanagari',sans-serif;line-height:1.5;}
+.step:last-child{margin-bottom:0;}
+.sn{min-width:18px;height:18px;border-radius:50%;background:#6366f1;color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+.step a{color:#6366f1;font-weight:600;text-decoration:none;}
+input[type=text],input[type=password]{width:100%;padding:11px 14px;border-radius:11px;border:1.5px solid #e5e7eb;font-size:14px;margin-bottom:10px;outline:none;font-family:'Noto Sans Devanagari',sans-serif;}
+input:focus{border-color:#6366f1;}
+.start-btn{width:100%;padding:14px;border-radius:12px;border:none;background:linear-gradient(135deg,#6366f1,#7c3aed);color:#fff;font-size:16px;font-weight:700;cursor:pointer;font-family:'Noto Sans Devanagari',sans-serif;-webkit-tap-highlight-color:transparent;}
+.hint{font-size:11px;color:#9ca3af;margin-top:10px;font-family:'Noto Sans Devanagari',sans-serif;}
 
-    /* App */
-    #app { display:none; flex:1; flex-direction:column; height:100dvh; overflow:hidden; }
-    #app.show { display:flex; }
+/* App */
+#app{display:none;flex:1;flex-direction:column;height:100dvh;overflow:hidden;}
+#app.show{display:flex;}
 
-    /* Header */
-    #hdr { display:flex; align-items:center; padding:10px 14px; gap:10px; border-bottom:1px solid #e5e7eb; background:#fff; flex-shrink:0; }
-    .hdr-logo { width:34px; height:34px; border-radius:10px; flex-shrink:0; background:linear-gradient(135deg,#6366f1,#8b5cf6); display:flex; align-items:center; justify-content:center; font-size:17px; }
-    .hdr-name { font-weight:700; font-size:14px; color:#111827; }
-    .hdr-sub { font-size:10px; color:#9ca3af; }
-    .online { margin-left:auto; display:flex; align-items:center; gap:5px; }
-    .dot-green { width:7px; height:7px; border-radius:50%; background:#22c55e; flex-shrink:0; }
-    .online span { font-size:11px; color:#6b7280; }
-    #newbtn { padding:5px 10px; border-radius:8px; border:1px solid #e5e7eb; background:#fff; font-size:12px; color:#374151; cursor:pointer; font-weight:500; margin-left:8px; white-space:nowrap; }
+/* Header */
+#hdr{display:flex;align-items:center;padding:10px 14px;gap:10px;border-bottom:1px solid #e5e7eb;background:#fff;flex-shrink:0;}
+.hlogo{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;}
+.hname{font-weight:700;font-size:14px;color:#111827;}
+.hsub{font-size:10px;color:#9ca3af;}
+.hdot{width:7px;height:7px;border-radius:50%;background:#22c55e;}
+.hright{margin-left:auto;display:flex;align-items:center;gap:6px;}
+.hbtn{padding:6px 11px;border-radius:8px;border:1px solid #e5e7eb;background:#fff;font-size:12px;color:#374151;cursor:pointer;-webkit-tap-highlight-color:transparent;}
 
-    /* Sidebar toggle for history */
-    #hist-btn { padding:5px 10px; border-radius:8px; border:1px solid #e5e7eb; background:#fff; font-size:12px; color:#374151; cursor:pointer; margin-left:6px; }
+/* Messages */
+#msgs{flex:1;overflow-y:auto;padding:14px 0 6px;}
+#welcome{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px 20px;min-height:100%;}
+.wicon{width:68px;height:68px;border-radius:18px;background:linear-gradient(135deg,#6366f1,#8b5cf6);display:flex;align-items:center;justify-content:center;font-size:34px;margin-bottom:16px;box-shadow:0 8px 30px rgba(99,102,241,.2);}
+#welcome h2{font-size:20px;font-weight:700;margin-bottom:8px;font-family:'Noto Sans Devanagari',sans-serif;text-align:center;}
+#welcome p{font-size:13px;color:#6b7280;text-align:center;max-width:300px;line-height:1.8;margin-bottom:22px;font-family:'Noto Sans Devanagari',sans-serif;}
+.chips{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%;max-width:380px;}
+.chip{padding:11px 13px;border-radius:12px;border:1.5px solid #e5e7eb;background:#fff;cursor:pointer;text-align:left;font-family:'Noto Sans Devanagari',sans-serif;font-size:12px;color:#374151;font-weight:500;-webkit-tap-highlight-color:transparent;}
 
-    /* History Panel */
-    #hist-panel { display:none; position:fixed; top:0; left:0; width:260px; height:100%; background:#fff; box-shadow:4px 0 20px rgba(0,0,0,0.1); z-index:100; flex-direction:column; overflow:hidden; }
-    #hist-panel.show { display:flex; }
-    #hist-overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.3); z-index:99; }
-    #hist-overlay.show { display:block; }
-    .hist-header { padding:16px; border-bottom:1px solid #e5e7eb; display:flex; align-items:center; justify-content:space-between; }
-    .hist-title { font-weight:700; font-size:15px; color:#111827; font-family:'Noto Sans Devanagari',sans-serif; }
-    #hist-close { background:none; border:none; font-size:20px; cursor:pointer; color:#6b7280; }
-    #hist-list { flex:1; overflow-y:auto; padding:10px; }
-    .hist-item { padding:10px 12px; border-radius:10px; cursor:pointer; margin-bottom:6px; border:1px solid #e5e7eb; transition:background 0.15s; }
-    .hist-item:hover { background:#f0f4ff; border-color:#6366f1; }
-    .hist-item-title { font-size:13px; font-weight:600; color:#374151; font-family:'Noto Sans Devanagari',sans-serif; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-    .hist-item-date { font-size:11px; color:#9ca3af; margin-top:2px; }
-    .hist-empty { text-align:center; color:#9ca3af; font-size:13px; padding:30px 10px; font-family:'Noto Sans Devanagari',sans-serif; }
+.msg{animation:fadeUp .3s ease forwards;max-width:660px;margin:0 auto 2px;padding:3px 14px;display:flex;gap:8px;align-items:flex-end;}
+.msg.u{flex-direction:row-reverse;}
+.av{width:28px;height:28px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:13px;}
+.av.ai{background:linear-gradient(135deg,#6366f1,#8b5cf6);}
+.av.hu{background:#f3f4f6;}
+.bub{max-width:80%;padding:9px 13px;font-size:14px;line-height:1.75;font-family:'Noto Sans Devanagari',-apple-system,sans-serif;white-space:pre-wrap;word-break:break-word;}
+.bub.ai{border-radius:4px 14px 14px 14px;background:#f9fafb;color:#1f2937;box-shadow:0 1px 3px rgba(0,0,0,.06),inset 0 0 0 1px #e5e7eb;}
+.bub.u{border-radius:14px 4px 14px 14px;background:linear-gradient(135deg,#6366f1,#7c3aed);color:#fff;}
 
-    /* Messages */
-    #msgs { flex:1; overflow-y:auto; padding:14px 0 6px; }
-    #welcome { display:flex; flex-direction:column; align-items:center; justify-content:center; padding:28px 20px; min-height:100%; }
-    .w-icon { width:68px; height:68px; border-radius:18px; background:linear-gradient(135deg,#6366f1,#8b5cf6); display:flex; align-items:center; justify-content:center; font-size:34px; margin-bottom:16px; box-shadow:0 8px 30px rgba(99,102,241,0.2); }
-    #welcome h2 { font-size:21px; font-weight:700; color:#111827; margin-bottom:8px; font-family:'Noto Sans Devanagari',sans-serif; text-align:center; }
-    #welcome p { font-size:13px; color:#6b7280; text-align:center; max-width:300px; line-height:1.8; margin-bottom:24px; font-family:'Noto Sans Devanagari',sans-serif; }
-    #chips { display:grid; grid-template-columns:1fr 1fr; gap:8px; width:100%; max-width:380px; }
-    .chip { padding:11px 13px; border-radius:12px; border:1.5px solid #e5e7eb; background:#fff; cursor:pointer; text-align:left; display:flex; align-items:center; gap:7px; font-family:'Noto Sans Devanagari',sans-serif; font-size:12px; color:#374151; font-weight:500; transition:all 0.15s; }
-    .chip:active { background:#f0f4ff; border-color:#6366f1; }
+#typing{display:none;max-width:660px;margin:0 auto;padding:3px 14px;}
+#typing.on{display:flex;gap:8px;align-items:flex-end;}
+.tdots{padding:9px 13px;border-radius:4px 14px 14px 14px;background:#f9fafb;box-shadow:0 1px 3px rgba(0,0,0,.06),inset 0 0 0 1px #e5e7eb;display:flex;gap:4px;align-items:center;}
+.d{width:6px;height:6px;border-radius:50%;background:#94a3b8;animation:bounce 1.3s infinite ease-in-out;}
 
-    .msg { animation:fadeSlide 0.3s ease forwards; max-width:660px; margin:0 auto 2px; padding:3px 14px; display:flex; gap:8px; align-items:flex-end; }
-    .msg.user { flex-direction:row-reverse; }
-    .av { width:28px; height:28px; border-radius:50%; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:13px; }
-    .av.ai { background:linear-gradient(135deg,#6366f1,#8b5cf6); }
-    .av.hu { background:#f3f4f6; }
-    .bub { max-width:80%; padding:9px 13px; font-size:14px; line-height:1.75; font-family:'Noto Sans Devanagari',-apple-system,sans-serif; white-space:pre-wrap; word-break:break-word; }
-    .bub.ai { border-radius:4px 14px 14px 14px; background:#f9fafb; color:#1f2937; box-shadow:0 1px 3px rgba(0,0,0,0.06),inset 0 0 0 1px #e5e7eb; }
-    .bub.user { border-radius:14px 4px 14px 14px; background:linear-gradient(135deg,#6366f1,#7c3aed); color:#fff; }
+/* Input */
+#inp-area{padding:8px 14px 16px;border-top:1px solid #e5e7eb;background:#fff;flex-shrink:0;}
+#inp-row{display:flex;align-items:flex-end;gap:8px;}
+#tinput{flex:1;padding:12px 14px;border-radius:14px;border:1.5px solid #e5e7eb;font-size:14px;color:#111827;line-height:1.6;resize:none;max-height:120px;overflow:auto;font-family:'Noto Sans Devanagari',-apple-system,sans-serif;outline:none;background:#f9fafb;}
+#tinput:focus{border-color:#a5b4fc;background:#fff;}
 
-    #typing { display:none; max-width:660px; margin:0 auto; padding:3px 14px; }
-    #typing.on { display:flex; gap:8px; align-items:flex-end; }
-    .tdots { padding:9px 13px; border-radius:4px 14px 14px 14px; background:#f9fafb; box-shadow:0 1px 3px rgba(0,0,0,0.06),inset 0 0 0 1px #e5e7eb; display:flex; gap:4px; align-items:center; }
-    .d { width:6px; height:6px; border-radius:50%; background:#94a3b8; animation:bounce 1.3s infinite ease-in-out; }
+/* BIG SEND BUTTON - always active */
+#sbtn{
+  width:48px;height:48px;border-radius:14px;border:none;flex-shrink:0;
+  background:linear-gradient(135deg,#6366f1,#7c3aed);
+  color:#fff;font-size:20px;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;
+  box-shadow:0 3px 12px rgba(99,102,241,.4);
+  -webkit-tap-highlight-color:transparent;
+  touch-action:manipulation;
+  user-select:none;
+  -webkit-user-select:none;
+}
+#sbtn:active{transform:scale(.92);}
 
-    /* Input - ALWAYS VISIBLE SEND BUTTON */
-    #inp-area { padding:8px 14px 14px; border-top:1px solid #e5e7eb; background:#fff; flex-shrink:0; }
-    #inp-row { display:flex; align-items:flex-end; gap:8px; }
-    #tinput { flex:1; padding:11px 14px; border-radius:14px; border:1.5px solid #e5e7eb; font-size:14px; color:#111827; line-height:1.6; resize:none; max-height:120px; overflow:auto; font-family:'Noto Sans Devanagari',-apple-system,sans-serif; outline:none; background:#f9fafb; transition:border-color 0.2s; }
-    #tinput:focus { border-color:#a5b4fc; background:#fff; }
-    #sbtn { width:44px; height:44px; border-radius:12px; border:none; flex-shrink:0; background:linear-gradient(135deg,#6366f1,#7c3aed); color:#fff; font-size:18px; display:flex; align-items:center; justify-content:center; cursor:pointer; box-shadow:0 2px 8px rgba(99,102,241,0.3); }
-    #sbtn:active { transform:scale(0.94); }
-    #status-row { display:flex; align-items:center; justify-content:center; gap:6px; margin-top:6px; }
-    #model-status { font-size:11px; color:#10b981; font-family:'Noto Sans Devanagari',sans-serif; }
-    #ft { font-size:10px; color:#d1d5db; font-family:'Noto Sans Devanagari',sans-serif; }
-  </style>
+#st{text-align:center;margin-top:7px;font-size:11px;color:#10b981;font-family:'Noto Sans Devanagari',sans-serif;}
+</style>
 </head>
 <body>
 
-<!-- Setup Screen -->
-<div id="setup-screen">
-  <div class="card">
-    <div class="card-logo">🌀</div>
-    <h2>G PAT AI में आपका स्वागत है!</h2>
-    <div class="free-badge">✅ बिल्कुल FREE</div>
-    <input class="inp" type="text" id="nameInput" placeholder="आपका नाम क्या है? (जैसे: Rohit)" />
-    <div class="steps">
-      <div class="step"><div class="sn">1</div><div><a href="https://openrouter.ai" target="_blank">openrouter.ai</a> → Google से Sign In</div></div>
-      <div class="step"><div class="sn">2</div><div><a href="https://openrouter.ai/keys" target="_blank">openrouter.ai/keys</a> → "Create Key" → Copy</div></div>
-      <div class="step"><div class="sn">3</div><div>नीचे paste करें → Start!</div></div>
-    </div>
-    <input class="inp mono" type="password" id="kInput" placeholder="sk-or-v1-..." />
-    <button class="btn-main" id="startBtn">🚀 शुरू करें</button>
-    <div class="hint">आपकी key सिर्फ आपके device में save रहेगी।</div>
+<div id="setup">
+<div class="card">
+  <h1>🌀</h1>
+  <h2>G PAT AI में स्वागत है!</h2>
+  <div class="badge">✅ बिल्कुल FREE</div>
+  <input type="text" id="nameInp" placeholder="आपका नाम? (जैसे: Rohit)"/>
+  <div class="steps">
+    <div class="step"><div class="sn">1</div><div><a href="https://openrouter.ai" target="_blank">openrouter.ai</a> → Google से Sign In</div></div>
+    <div class="step"><div class="sn">2</div><div><a href="https://openrouter.ai/keys" target="_blank">openrouter.ai/keys</a> → Create Key → Copy</div></div>
+    <div class="step"><div class="sn">3</div><div>नीचे paste करें → Start!</div></div>
   </div>
+  <input type="password" id="keyInp" placeholder="sk-or-v1-..."/>
+  <button class="start-btn" onclick="doStart()">🚀 शुरू करें</button>
+  <div class="hint">Key सिर्फ आपके device में रहेगी।</div>
+</div>
 </div>
 
-<!-- History Panel -->
-<div id="hist-overlay" onclick="toggleHistory()"></div>
-<div id="hist-panel">
-  <div class="hist-header">
-    <div class="hist-title">💬 Chat History</div>
-    <button id="hist-close" onclick="toggleHistory()">✕</button>
-  </div>
-  <div id="hist-list"></div>
-</div>
-
-<!-- Main App -->
 <div id="app">
   <div id="hdr">
-    <div class="hdr-logo">🌀</div>
-    <div>
-      <div class="hdr-name">G PAT AI</div>
-      <div class="hdr-sub" id="hdr-sub">Emotional Intelligence</div>
+    <div class="hlogo">🌀</div>
+    <div><div class="hname">G PAT AI</div><div class="hsub" id="hsub">Emotional Intelligence</div></div>
+    <div class="hright">
+      <div class="hdot"></div>
+      <button class="hbtn" onclick="newChat()">✏️ New</button>
     </div>
-    <div class="online">
-      <div class="dot-green"></div>
-      <span>Online</span>
-    </div>
-    <button id="hist-btn" onclick="toggleHistory()">📋</button>
-    <button id="newbtn">✏️ New</button>
   </div>
 
   <div id="msgs">
     <div id="welcome">
-      <div class="w-icon">🌀</div>
-      <h2 id="welcome-title">नमस्ते! मैं G PAT AI हूं</h2>
-      <p id="welcome-sub">आपकी feelings समझता हूं, दिल से बात करता हूं और हर problem solve करने की कोशिश करूंगा।</p>
-      <div id="chips">
-        <button class="chip" data-msg="Mujhe bahut stress ho raha hai, help karo">😔 Stress हो रहा है</button>
-        <button class="chip" data-msg="Career ke baare mein advice chahiye">💼 Career advice</button>
-        <button class="chip" data-msg="Bas baat karni hai, koi sun nahi raha">💬 Baat karni hai</button>
-        <button class="chip" data-msg="Relationship mein problem hai, samjhao">❤️ Relationship</button>
+      <div class="wicon">🌀</div>
+      <h2 id="wtitle">नमस्ते! मैं G PAT AI हूं</h2>
+      <p id="wsub">आपकी feelings समझता हूं और हर problem solve करूंगा।</p>
+      <div class="chips">
+        <button class="chip" onclick="quickSend('Mujhe bahut stress ho raha hai')">😔 Stress हो रहा है</button>
+        <button class="chip" onclick="quickSend('Career advice chahiye')">💼 Career advice</button>
+        <button class="chip" onclick="quickSend('Bas baat karni hai')">💬 Baat karni hai</button>
+        <button class="chip" onclick="quickSend('Relationship mein problem hai')">❤️ Relationship</button>
       </div>
     </div>
     <div id="typing">
       <div class="av ai">🌀</div>
       <div class="tdots">
         <div class="d" style="animation-delay:0s"></div>
-        <div class="d" style="animation-delay:0.18s"></div>
-        <div class="d" style="animation-delay:0.36s"></div>
+        <div class="d" style="animation-delay:.18s"></div>
+        <div class="d" style="animation-delay:.36s"></div>
       </div>
     </div>
   </div>
@@ -172,277 +143,133 @@
       <textarea id="tinput" rows="1" placeholder="यहाँ लिखें..."></textarea>
       <button id="sbtn" onclick="sendMsg()">➤</button>
     </div>
-    <div id="status-row">
-      <span id="model-status">✅ Ready</span>
-      <span id="ft">• G PAT AI • FREE</span>
-    </div>
+    <div id="st">✅ Ready • G PAT AI • FREE</div>
   </div>
 </div>
 
 <script>
-var MODELS = [
-  'meta-llama/llama-3.2-3b-instruct:free',
-  'mistralai/mistral-7b-instruct:free',
-  'google/gemma-3-4b-it:free',
-  'qwen/qwen-2.5-7b-instruct:free',
-  'microsoft/phi-3-mini-128k-instruct:free'
-];
+var MODELS=['meta-llama/llama-3.2-3b-instruct:free','mistralai/mistral-7b-instruct:free','google/gemma-3-4b-it:free','qwen/qwen-2.5-7b-instruct:free'];
+var hist=[],busy=false,apiKey='',userName='',curModel=0;
 
-var history = [];
-var busy = false;
-var apiKey = localStorage.getItem('gpat_key') || '';
-var userName = localStorage.getItem('gpat_name') || '';
-var currentModel = 0;
-var allChats = JSON.parse(localStorage.getItem('gpat_chats') || '[]');
-var currentChatId = null;
-
-function getSystem() {
-  var name = userName ? userName : 'dost';
-  return "You are G PAT AI — a deeply empathetic, emotionally intelligent AI companion.\n\nThe user's name is: " + name + "\n\nCORE RULES:\n- Always address the user by their name (" + name + ") naturally in conversation\n- ALWAYS acknowledge emotions FIRST before giving solutions\n- Say things like '" + name + ", main samajh sakta hoon...', 'Yeh sun ke dukh hua " + name + "'\n- Speak warmly like a caring friend\n- Ask meaningful follow-up questions\n- Solve ANY problem: relationships, career, mental health, life decisions\n- LANGUAGE: Always respond in the same language as the user (Hindi, English, or Hinglish)\n- Keep responses warm and conversational, not too long\n- Make " + name + " feel seen, heard, and valued";
+function getSystem(){
+  var n=userName||'dost';
+  return "You are G PAT AI — a deeply empathetic AI companion.\nUser's name: "+n+"\nRULES:\n- Address user as '"+n+"' naturally\n- Acknowledge emotions FIRST, then solutions\n- Warm, caring, friendly tone\n- Respond in user's language (Hindi/English/Hinglish)\n- Make "+n+" feel heard and valued";
 }
 
-// Auto-start if key saved
-window.addEventListener('load', function() {
-  if (apiKey && userName) {
-    startMainApp();
-  } else if (apiKey) {
-    document.getElementById('kInput').value = apiKey;
-  }
-});
+window.onload=function(){
+  var k=localStorage.getItem('gpat_k');
+  var n=localStorage.getItem('gpat_n');
+  if(k&&n){apiKey=k;userName=n;showApp();}
+  else if(k){document.getElementById('keyInp').value=k;}
+};
 
-document.getElementById('startBtn').addEventListener('click', function() {
-  var name = document.getElementById('nameInput').value.trim();
-  var k = document.getElementById('kInput').value.trim();
-  if (!name) { alert('अपना नाम डालें!'); return; }
-  if (!k) { alert('API Key डालें!'); return; }
-  userName = name;
-  apiKey = k;
-  localStorage.setItem('gpat_key', k);
-  localStorage.setItem('gpat_name', name);
-  startMainApp();
-});
+function doStart(){
+  var n=document.getElementById('nameInp').value.trim();
+  var k=document.getElementById('keyInp').value.trim();
+  if(!n){alert('नाम डालें!');return;}
+  if(!k){alert('API Key डालें!');return;}
+  userName=n;apiKey=k;
+  localStorage.setItem('gpat_k',k);
+  localStorage.setItem('gpat_n',n);
+  showApp();
+}
 
-document.getElementById('kInput').addEventListener('keydown', function(e) {
-  if (e.key === 'Enter') document.getElementById('startBtn').click();
-});
-
-function startMainApp() {
-  document.getElementById('setup-screen').style.display = 'none';
+function showApp(){
+  document.getElementById('setup').style.display='none';
   document.getElementById('app').classList.add('show');
-  document.getElementById('hdr-sub').textContent = 'Hello, ' + userName + '! 👋';
-  document.getElementById('welcome-title').textContent = 'नमस्ते ' + userName + '! मैं G PAT AI हूं';
-  document.getElementById('welcome-sub').textContent = userName + ', मैं आपकी feelings समझता हूं और हर problem solve करने की कोशिश करूंगा।';
-  loadHistoryPanel();
+  document.getElementById('hsub').textContent='Hello, '+userName+'! 👋';
+  document.getElementById('wtitle').textContent='नमस्ते '+userName+'! मैं G PAT AI हूं';
+  document.getElementById('wsub').textContent=userName+', मैं आपकी feelings समझता हूं और हर problem solve करूंगा।';
 }
 
-// Send button - always works on tap
-document.getElementById('sbtn').addEventListener('touchend', function(e) {
-  e.preventDefault();
-  sendMsg();
+// Textarea auto-resize
+var ta=document.getElementById('tinput');
+ta.addEventListener('input',function(){
+  this.style.height='auto';
+  this.style.height=Math.min(this.scrollHeight,120)+'px';
+});
+ta.addEventListener('keydown',function(e){
+  if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg();}
 });
 
-// Textarea
-var ta = document.getElementById('tinput');
-ta.addEventListener('input', function() {
-  this.style.height = 'auto';
-  this.style.height = Math.min(this.scrollHeight, 120) + 'px';
-});
-ta.addEventListener('keydown', function(e) {
-  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMsg(); }
-});
+function quickSend(t){sendMsg(t);}
 
-document.getElementById('newbtn').addEventListener('click', function() {
-  saveCurrentChat();
-  resetChat();
-});
-
-// Chips
-document.addEventListener('click', function(e) {
-  if (e.target.closest('.chip')) {
-    sendMsg(e.target.closest('.chip').dataset.msg);
-  }
-});
-
-function toggleHistory() {
-  var panel = document.getElementById('hist-panel');
-  var overlay = document.getElementById('hist-overlay');
-  var isOpen = panel.classList.contains('show');
-  if (isOpen) {
-    panel.classList.remove('show');
-    overlay.classList.remove('show');
-  } else {
-    loadHistoryPanel();
-    panel.classList.add('show');
-    overlay.classList.add('show');
-  }
+function scrollDown(){
+  var m=document.getElementById('msgs');
+  m.scrollTop=m.scrollHeight;
 }
 
-function loadHistoryPanel() {
-  var list = document.getElementById('hist-list');
-  allChats = JSON.parse(localStorage.getItem('gpat_chats') || '[]');
-  if (allChats.length === 0) {
-    list.innerHTML = '<div class="hist-empty">अभी कोई history नहीं है।<br/>बात करने के बाद यहाँ save होगी।</div>';
-    return;
-  }
-  list.innerHTML = '';
-  allChats.slice().reverse().forEach(function(chat, i) {
-    var div = document.createElement('div');
-    div.className = 'hist-item';
-    div.innerHTML = '<div class="hist-item-title">' + (chat.title || 'Chat ' + (i+1)) + '</div><div class="hist-item-date">' + chat.date + '</div>';
-    div.addEventListener('click', function() {
-      loadChat(chat);
-      toggleHistory();
-    });
-    list.appendChild(div);
-  });
-}
-
-function saveCurrentChat() {
-  if (history.length === 0) return;
-  var firstMsg = history[0].content;
-  var title = firstMsg.length > 30 ? firstMsg.substring(0, 30) + '...' : firstMsg;
-  var chat = {
-    id: Date.now(),
-    title: title,
-    date: new Date().toLocaleDateString('hi-IN'),
-    history: history.slice()
-  };
-  allChats.push(chat);
-  localStorage.setItem('gpat_chats', JSON.stringify(allChats));
-}
-
-function loadChat(chat) {
-  saveCurrentChat();
-  history = chat.history.slice();
-  var msgs = document.getElementById('msgs');
-  var w = document.getElementById('welcome');
-  if (w) w.remove();
-  msgs.innerHTML = '';
-  msgs.appendChild(document.getElementById('typing') || createTyping());
-
-  history.forEach(function(m) {
-    addBubble(m.role, m.content, true);
-  });
-}
-
-function createTyping() {
-  var div = document.createElement('div');
-  div.id = 'typing';
-  div.innerHTML = '<div class="av ai">🌀</div><div class="tdots"><div class="d" style="animation-delay:0s"></div><div class="d" style="animation-delay:0.18s"></div><div class="d" style="animation-delay:0.36s"></div></div>';
-  return div;
-}
-
-function scrollDown() {
-  var m = document.getElementById('msgs');
-  m.scrollTop = m.scrollHeight;
-}
-
-function addBubble(role, text, noAnim) {
-  var w = document.getElementById('welcome');
-  if (w) w.remove();
-  var typing = document.getElementById('typing');
-  var msgs = document.getElementById('msgs');
-  var div = document.createElement('div');
-  div.className = 'msg' + (role === 'user' ? ' user' : '') + (noAnim ? '' : '');
-  div.innerHTML =
-    '<div class="av ' + (role === 'assistant' ? 'ai' : 'hu') + '">' +
-    (role === 'assistant' ? '🌀' : '👤') + '</div>' +
-    '<div class="bub ' + (role === 'assistant' ? 'ai' : 'user') + '">' +
-    text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') + '</div>';
-  msgs.insertBefore(div, typing);
+function addBubble(role,text){
+  var w=document.getElementById('welcome');
+  if(w)w.remove();
+  var typing=document.getElementById('typing');
+  var msgs=document.getElementById('msgs');
+  var div=document.createElement('div');
+  div.className='msg'+(role==='user'?' u':'');
+  div.innerHTML='<div class="av '+(role==='assistant'?'ai':'hu')+'">'+(role==='assistant'?'🌀':'👤')+'</div><div class="bub '+(role==='assistant'?'ai':'u')+'">'+text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')+'</div>';
+  msgs.insertBefore(div,typing);
   scrollDown();
 }
 
-function showTyping(show) {
-  var t = document.getElementById('typing');
-  if (t) t.className = show ? 'on' : '';
+function showTyping(s){
+  var t=document.getElementById('typing');
+  if(t)t.className=s?'on':'';
   scrollDown();
 }
 
-function setStatus(txt, color) {
-  var s = document.getElementById('model-status');
-  s.textContent = txt;
-  s.style.color = color || '#10b981';
+function setStatus(t,c){
+  var s=document.getElementById('st');
+  s.textContent=t;
+  s.style.color=c||'#10b981';
 }
 
-async function tryModel(idx, messages) {
-  if (idx >= MODELS.length) return null;
-  setStatus('⏳ Connecting...', '#f59e0b');
-  try {
-    var res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + apiKey,
-        'HTTP-Referer': window.location.href,
-        'X-Title': 'G PAT AI'
-      },
-      body: JSON.stringify({ model: MODELS[idx], messages: messages, max_tokens: 500, temperature: 0.8 })
+async function tryModel(i,messages){
+  if(i>=MODELS.length)return null;
+  setStatus('⏳ Connecting...','#f59e0b');
+  try{
+    var r=await fetch('https://openrouter.ai/api/v1/chat/completions',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+apiKey,'HTTP-Referer':window.location.href,'X-Title':'G PAT AI'},
+      body:JSON.stringify({model:MODELS[i],messages:messages,max_tokens:500,temperature:0.8})
     });
-    var data = await res.json();
-    if (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) {
-      currentModel = idx;
-      setStatus('✅ Connected', '#10b981');
-      return data.choices[0].message.content;
+    var d=await r.json();
+    if(d.choices&&d.choices[0]&&d.choices[0].message&&d.choices[0].message.content){
+      curModel=i;
+      setStatus('✅ Connected • G PAT AI • FREE');
+      return d.choices[0].message.content;
     }
-    return await tryModel(idx + 1, messages);
-  } catch(e) {
-    return await tryModel(idx + 1, messages);
-  }
+    return await tryModel(i+1,messages);
+  }catch(e){return await tryModel(i+1,messages);}
 }
 
-async function sendMsg(txt) {
-  if (busy) return;
-  var text = (txt !== undefined ? txt : ta.value).trim();
-  if (!text) return;
-
-  ta.value = '';
-  ta.style.height = 'auto';
-  busy = true;
-
-  history.push({ role: 'user', content: text });
-  addBubble('user', text);
+async function sendMsg(txt){
+  if(busy)return;
+  var text=(txt!==undefined?txt:ta.value).trim();
+  if(!text)return;
+  ta.value='';
+  ta.style.height='auto';
+  busy=true;
+  hist.push({role:'user',content:text});
+  addBubble('user',text);
   showTyping(true);
-
-  var messages = [{ role: 'system', content: getSystem() }].concat(history);
-  var reply = await tryModel(currentModel, messages);
-
+  var messages=[{role:'system',content:getSystem()}].concat(hist);
+  var reply=await tryModel(curModel,messages);
   showTyping(false);
-
-  if (reply) {
-    history.push({ role: 'assistant', content: reply });
-    addBubble('assistant', reply);
-    // Auto-save every 5 messages
-    if (history.length % 10 === 0) saveCurrentChat();
+  if(reply){
+    hist.push({role:'assistant',content:reply});
+    addBubble('assistant',reply);
   } else {
-    setStatus('❌ Key check karein', '#ef4444');
-    addBubble('assistant', '⚠️ ' + userName + ', API Key काम नहीं कर रही।\n\nopenrouter.ai/keys पर जाकर नई Key बनाएं और page refresh करें। 🙏');
+    setStatus('❌ Key check karein','#ef4444');
+    addBubble('assistant','⚠️ '+userName+', API Key काम नहीं कर रही।\n\nopenrouter.ai/keys पर जाकर नई Key बनाएं। 🙏');
   }
-
-  busy = false;
+  busy=false;
 }
 
-function resetChat() {
-  history = [];
-  busy = false;
-  currentModel = 0;
-  setStatus('✅ Ready', '#10b981');
-  var msgs = document.getElementById('msgs');
-  msgs.innerHTML =
-    '<div id="welcome">' +
-    '<div class="w-icon">🌀</div>' +
-    '<h2>नमस्ते ' + userName + '! 😊</h2>' +
-    '<p>' + userName + ', क्या बात करनी है आज?</p>' +
-    '<div id="chips">' +
-    '<button class="chip" data-msg="Mujhe bahut stress ho raha hai">😔 Stress हो रहा है</button>' +
-    '<button class="chip" data-msg="Career ke baare mein advice chahiye">💼 Career advice</button>' +
-    '<button class="chip" data-msg="Bas baat karni hai">💬 Baat karni hai</button>' +
-    '<button class="chip" data-msg="Relationship mein problem hai">❤️ Relationship</button>' +
-    '</div></div>' +
-    '<div id="typing"><div class="av ai">🌀</div>' +
-    '<div class="tdots"><div class="d" style="animation-delay:0s"></div>' +
-    '<div class="d" style="animation-delay:0.18s"></div>' +
-    '<div class="d" style="animation-delay:0.36s"></div></div></div>';
+function newChat(){
+  hist=[];busy=false;curModel=0;
+  setStatus('✅ Ready • G PAT AI • FREE');
+  var msgs=document.getElementById('msgs');
+  msgs.innerHTML='<div id="welcome"><div class="wicon">🌀</div><h2>नमस्ते '+userName+'! 😊</h2><p>'+userName+', क्या बात करनी है आज?</p><div class="chips"><button class="chip" onclick="quickSend(\'Mujhe bahut stress ho raha hai\')">😔 Stress हो रहा है</button><button class="chip" onclick="quickSend(\'Career advice chahiye\')">💼 Career advice</button><button class="chip" onclick="quickSend(\'Bas baat karni hai\')">💬 Baat karni hai</button><button class="chip" onclick="quickSend(\'Relationship mein problem hai\')">❤️ Relationship</button></div></div><div id="typing"><div class="av ai">🌀</div><div class="tdots"><div class="d" style="animation-delay:0s"></div><div class="d" style="animation-delay:.18s"></div><div class="d" style="animation-delay:.36s"></div></div></div>';
 }
 </script>
 </body>
