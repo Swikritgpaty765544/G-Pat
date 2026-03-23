@@ -10,46 +10,40 @@ body{font-family:sans-serif;background:#fff;height:100vh;display:flex;flex-direc
 @keyframes bounce{0%,80%,100%{transform:translateY(0);opacity:.35}40%{transform:translateY(-5px);opacity:1}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
-/* SETUP */
 #setup{display:flex;align-items:center;justify-content:center;height:100vh;padding:16px;background:#f0f0ff;}
 .card{background:#fff;border-radius:16px;padding:24px;width:100%;max-width:380px;box-shadow:0 4px 20px rgba(0,0,0,.1);text-align:center;}
 .card h1{font-size:40px;margin-bottom:8px;}
 .card h2{font-size:18px;font-weight:700;margin-bottom:16px;color:#111;}
 .card input{width:100%;padding:12px;border:2px solid #ddd;border-radius:10px;font-size:15px;margin-bottom:10px;display:block;font-family:sans-serif;}
 .card input:focus{border-color:#6366f1;outline:none;}
-.steps{background:#f8f8ff;border-radius:10px;padding:12px;margin-bottom:12px;text-align:left;font-size:13px;color:#555;line-height:1.8;}
+.steps{background:#f8f8ff;border-radius:10px;padding:12px;margin-bottom:12px;text-align:left;font-size:13px;color:#555;line-height:1.9;}
 .steps a{color:#6366f1;font-weight:600;}
 .go-btn{width:100%;padding:14px;background:#6366f1;color:#fff;border:none;border-radius:10px;font-size:16px;font-weight:700;cursor:pointer;}
 .note{font-size:11px;color:#999;margin-top:10px;line-height:1.5;}
 
-/* APP */
 #app{display:none;flex-direction:column;height:100vh;overflow:hidden;}
 
-/* Header */
 #hdr{background:#6366f1;color:#fff;padding:11px 14px;display:flex;align-items:center;gap:10px;flex-shrink:0;}
 .hlogo{font-size:22px;}
-.hinfo .hname{font-weight:700;font-size:15px;}
-.hinfo .hsub{font-size:10px;opacity:.8;}
+.hname{font-weight:700;font-size:15px;}
+.hsub{font-size:10px;opacity:.8;}
 .hright{margin-left:auto;display:flex;gap:8px;}
-.hbtn{background:rgba(255,255,255,.2);color:#fff;border:none;padding:7px 12px;border-radius:8px;font-size:13px;cursor:pointer;white-space:nowrap;}
+.hbtn{background:rgba(255,255,255,.2);color:#fff;border:none;padding:7px 12px;border-radius:8px;font-size:16px;cursor:pointer;}
 
-/* Settings Menu */
-#settings-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.4);z-index:50;}
-#settings-overlay.on{display:block;}
-#settings-menu{display:none;position:fixed;top:0;right:0;width:220px;height:100%;background:#fff;z-index:51;flex-direction:column;box-shadow:-4px 0 20px rgba(0,0,0,.15);}
-#settings-menu.on{display:flex;}
-.sm-header{background:#6366f1;color:#fff;padding:20px 16px;flex-shrink:0;}
-.sm-header h3{font-size:16px;font-weight:700;margin-bottom:2px;}
-.sm-header p{font-size:11px;opacity:.8;}
+#set-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.4);z-index:50;}
+#set-overlay.on{display:block;}
+#set-menu{display:none;position:fixed;top:0;right:0;width:220px;height:100%;background:#fff;z-index:51;flex-direction:column;box-shadow:-4px 0 20px rgba(0,0,0,.15);}
+#set-menu.on{display:flex;}
+.sm-hdr{background:#6366f1;color:#fff;padding:20px 16px;}
+.sm-hdr h3{font-size:16px;font-weight:700;}
+.sm-hdr p{font-size:11px;opacity:.8;margin-top:2px;}
 .sm-body{flex:1;padding:12px;}
 .sm-item{display:flex;align-items:center;gap:12px;padding:14px 12px;border-radius:10px;cursor:pointer;margin-bottom:4px;border:1px solid #f0f0f0;font-size:14px;color:#374151;font-weight:500;}
-.sm-item:active{background:#f0f4ff;}
-.sm-item .icon{font-size:20px;}
-.sm-item.danger{color:#ef4444;border-color:#fee2e2;}
-.sm-close{padding:12px 16px;border-top:1px solid #f0f0f0;flex-shrink:0;}
-.sm-close button{width:100%;padding:10px;border:1px solid #e5e7eb;background:#f9fafb;border-radius:8px;font-size:14px;cursor:pointer;color:#6b7280;}
+.sm-item .ic{font-size:20px;}
+.sm-item.red{color:#ef4444;border-color:#fee2e2;}
+.sm-foot{padding:12px;border-top:1px solid #eee;}
+.sm-foot button{width:100%;padding:10px;border:1px solid #ddd;background:#f9fafb;border-radius:8px;font-size:14px;cursor:pointer;color:#666;}
 
-/* Messages */
 #msgs{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:8px;background:#f5f5f5;}
 .welcome{text-align:center;padding:20px 10px;margin:auto;}
 .welcome .big{font-size:52px;margin-bottom:12px;}
@@ -67,7 +61,6 @@ body{font-family:sans-serif;background:#fff;height:100vh;display:flex;flex-direc
 .dot:nth-child(2){animation-delay:.2s;}
 .dot:nth-child(3){animation-delay:.4s;}
 
-/* Input */
 #inp{background:#fff;border-top:1px solid #eee;padding:10px 12px;display:flex;gap:8px;align-items:flex-end;flex-shrink:0;}
 #ta{flex:1;border:2px solid #e5e7eb;border-radius:12px;padding:10px 12px;font-size:15px;resize:none;max-height:100px;line-height:1.5;font-family:sans-serif;}
 #ta:focus{border-color:#6366f1;outline:none;}
@@ -78,58 +71,56 @@ body{font-family:sans-serif;background:#fff;height:100vh;display:flex;flex-direc
 </head>
 <body>
 
-<!-- SETUP -->
 <div id="setup">
 <div class="card">
   <h1>🌀</h1>
   <h2>G PAT AI</h2>
   <div class="steps">
-    📌 <b>Free API Key kaise len?</b><br>
-    1. <a href="https://openrouter.ai" target="_blank">openrouter.ai</a> → Google se login<br>
-    2. <a href="https://openrouter.ai/keys" target="_blank">openrouter.ai/keys</a> → Create Key → Copy<br>
-    3. Niche paste karo
+    📌 <b>Google Gemini API Key:</b><br>
+    1. <a href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com/apikey</a> खोलो<br>
+    2. <b>"Create API key"</b> दबाओ<br>
+    3. Key copy करो → नीचे paste करो<br>
+    ✅ <b>बिल्कुल FREE!</b>
   </div>
   <input type="text" id="nInp" placeholder="Aapka naam? (jaise: Swikrit)"/>
-  <input type="password" id="kInp" placeholder="sk-or-v1-..."/>
+  <input type="password" id="kInp" placeholder="AIza..."/>
   <button class="go-btn" onclick="doStart()">🚀 Shuru Karen</button>
   <div class="note">Key sirf aapke phone me rahegi.</div>
 </div>
 </div>
 
-<!-- Settings overlay -->
-<div id="settings-overlay" onclick="closeSettings()"></div>
-<div id="settings-menu">
-  <div class="sm-header">
+<div id="set-overlay" onclick="closeSet()"></div>
+<div id="set-menu">
+  <div class="sm-hdr">
     <h3>⚙️ Settings</h3>
     <p id="sm-name">G PAT AI</p>
   </div>
   <div class="sm-body">
-    <div class="sm-item" onclick="newChat();closeSettings();">
-      <span class="icon">✏️</span> New Chat
+    <div class="sm-item" onclick="newChat();closeSet();">
+      <span class="ic">✏️</span> New Chat
     </div>
     <div class="sm-item" onclick="changeKey()">
-      <span class="icon">🔑</span> API Key Change
+      <span class="ic">🔑</span> API Key Change
     </div>
-    <div class="sm-item danger" onclick="logout()">
-      <span class="icon">🚪</span> Logout
+    <div class="sm-item red" onclick="logout()">
+      <span class="ic">🚪</span> Logout
     </div>
   </div>
-  <div class="sm-close">
-    <button onclick="closeSettings()">✕ Band Karo</button>
+  <div class="sm-foot">
+    <button onclick="closeSet()">✕ Band Karo</button>
   </div>
 </div>
 
-<!-- APP -->
 <div id="app">
   <div id="hdr">
     <div class="hlogo">🌀</div>
-    <div class="hinfo">
+    <div>
       <div class="hname">G PAT AI</div>
       <div class="hsub" id="hsub">Emotional Intelligence</div>
     </div>
     <div class="hright">
       <button class="hbtn" onclick="newChat()">✏️</button>
-      <button class="hbtn" onclick="openSettings()">⚙️</button>
+      <button class="hbtn" onclick="openSet()">⚙️</button>
     </div>
   </div>
 
@@ -137,7 +128,7 @@ body{font-family:sans-serif;background:#fff;height:100vh;display:flex;flex-direc
     <div class="welcome" id="wel">
       <div class="big">🌀</div>
       <h3 id="wt">Namaste! Main G PAT AI hun</h3>
-      <p id="wp">Aapki feelings samajhta hun aur har problem solve karunga.</p>
+      <p id="wp">Aapki feelings samajhta hun.</p>
       <div class="qgrid">
         <button class="qbtn" onclick="go('Mujhe bahut stress ho raha hai')">😔 Stress ho raha hai</button>
         <button class="qbtn" onclick="go('Career advice chahiye')">💼 Career advice</button>
@@ -156,10 +147,11 @@ body{font-family:sans-serif;background:#fff;height:100vh;display:flex;flex-direc
 </div>
 
 <script>
-var MODELS=['meta-llama/llama-3.2-3b-instruct:free','mistralai/mistral-7b-instruct:free','google/gemma-3-4b-it:free','qwen/qwen-2.5-7b-instruct:free','microsoft/phi-3-mini-128k-instruct:free'];
-var hist=[],busy=false,key='',name='',cm=0;
+var hist=[], busy=false, key='', name='';
 
-function sys(){return "You are G PAT AI - a warm, empathetic AI friend. User name: "+name+". Always use their name naturally. Acknowledge feelings first before solutions. Respond in same language as user (Hindi/English/Hinglish). Be warm, caring, conversational.";}
+function sys(){
+  return "You are G PAT AI - a warm, empathetic AI friend. User name: "+name+". Always use their name naturally. Acknowledge feelings first before solutions. Respond in same language as user (Hindi/English/Hinglish). Be warm, caring, conversational. Keep responses concise.";
+}
 
 window.onload=function(){
   var k=localStorage.getItem('gk');
@@ -184,37 +176,20 @@ function launch(){
   document.getElementById('hsub').textContent='Hello, '+name+'! 👋';
   document.getElementById('wt').textContent='Namaste '+name+'! Main G PAT AI hun 🌀';
   document.getElementById('wp').textContent=name+', main aapki feelings samajhta hun aur poori koshish karunga.';
-  document.getElementById('sm-name').textContent='Hello, '+name+'! 👋';
+  document.getElementById('sm-name').textContent='Hello, '+name+'!';
 }
 
-function openSettings(){
-  document.getElementById('settings-menu').classList.add('on');
-  document.getElementById('settings-overlay').classList.add('on');
-}
-
-function closeSettings(){
-  document.getElementById('settings-menu').classList.remove('on');
-  document.getElementById('settings-overlay').classList.remove('on');
-}
+function openSet(){document.getElementById('set-menu').classList.add('on');document.getElementById('set-overlay').classList.add('on');}
+function closeSet(){document.getElementById('set-menu').classList.remove('on');document.getElementById('set-overlay').classList.remove('on');}
 
 function changeKey(){
-  closeSettings();
-  var newKey=prompt('Nai API Key paste karo:');
-  if(newKey&&newKey.trim()){
-    key=newKey.trim();
-    localStorage.setItem('gk',key);
-    cm=0;
-    setStatus('✅ Nai Key Save Ho Gayi!');
-    alert('✅ API Key change ho gayi, '+name+'!');
-  }
+  closeSet();
+  var k=prompt('Nai API Key paste karo (AIza...):');
+  if(k&&k.trim()){key=k.trim();localStorage.setItem('gk',key);setStatus('✅ Key Save Ho Gayi!');alert('✅ Key change ho gayi!');}
 }
 
 function logout(){
-  if(confirm('Logout karna chahte ho?')){
-    localStorage.removeItem('gk');
-    localStorage.removeItem('gn');
-    location.reload();
-  }
+  if(confirm('Logout karna chahte ho?')){localStorage.removeItem('gk');localStorage.removeItem('gn');location.reload();}
 }
 
 var ta=document.getElementById('ta');
@@ -229,36 +204,20 @@ function addMsg(role,text){
   var d=document.createElement('div');
   d.className='bubble '+(role==='user'?'user':'ai');
   d.textContent=text;
-  msgs.appendChild(d);
-  scrollDown();
+  msgs.appendChild(d);scrollDown();
 }
 
 function showTyping(s){
   var old=document.getElementById('typ');if(old)old.remove();
   if(s){
     var msgs=document.getElementById('msgs');
-    var d=document.createElement('div');
-    d.id='typ';d.className='typing-div';
+    var d=document.createElement('div');d.id='typ';d.className='typing-div';
     d.innerHTML='<div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>';
     msgs.appendChild(d);scrollDown();
   }
 }
 
 function setStatus(t,c){var s=document.getElementById('st');s.textContent=t;s.style.color=c||'#10b981';}
-
-async function tryModel(i,messages){
-  if(i>=MODELS.length)return null;
-  try{
-    var r=await fetch('https://openrouter.ai/api/v1/chat/completions',{
-      method:'POST',
-      headers:{'Content-Type':'application/json','Authorization':'Bearer '+key,'HTTP-Referer':location.href,'X-Title':'G PAT AI'},
-      body:JSON.stringify({model:MODELS[i],messages:messages,max_tokens:500,temperature:0.8})
-    });
-    var d=await r.json();
-    if(d.choices&&d.choices[0]&&d.choices[0].message&&d.choices[0].message.content){cm=i;return d.choices[0].message.content;}
-    return await tryModel(i+1,messages);
-  }catch(e){return await tryModel(i+1,messages);}
-}
 
 async function go(txt){
   if(busy)return;
@@ -268,24 +227,51 @@ async function go(txt){
   busy=true;
   setStatus('⏳ Soch raha hun...','#f59e0b');
   addMsg('user',text);
-  hist.push({role:'user',content:text});
+  hist.push({role:'user',parts:[{text:text}]});
   showTyping(true);
-  var msgs=[{role:'system',content:sys()}].concat(hist);
-  var reply=await tryModel(cm,msgs);
-  showTyping(false);
-  if(reply){
-    hist.push({role:'assistant',content:reply});
-    addMsg('assistant',reply);
-    setStatus('✅ Connected • FREE');
-  } else {
-    setStatus('❌ Key problem!','#ef4444');
-    addMsg('assistant',name+', API Key kaam nahi kar rahi. ⚙️ Settings > API Key Change karo. 🙏');
+
+  try {
+    // Build conversation for Gemini
+    var contents = hist.map(function(m){
+      return {role: m.role, parts: m.parts};
+    });
+
+    var res = await fetch(
+      'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key='+key,
+      {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({
+          system_instruction:{parts:[{text:sys()}]},
+          contents: contents,
+          generationConfig:{maxOutputTokens:500,temperature:0.8}
+        })
+      }
+    );
+
+    var data = await res.json();
+
+    if(data.candidates && data.candidates[0] && data.candidates[0].content){
+      var reply = data.candidates[0].content.parts[0].text;
+      hist.push({role:'model',parts:[{text:reply}]});
+      showTyping(false);
+      addMsg('assistant',reply);
+      setStatus('✅ Connected • Google Gemini • FREE');
+    } else if(data.error){
+      throw new Error(data.error.message);
+    } else {
+      throw new Error('No response');
+    }
+  } catch(e){
+    showTyping(false);
+    setStatus('❌ Error: '+e.message,'#ef4444');
+    addMsg('assistant',name+', kuch problem aayi. ⚙️ Settings > API Key Change karo aur nai key daalo. 🙏\n\nError: '+e.message);
   }
   busy=false;
 }
 
 function newChat(){
-  hist=[];busy=false;cm=0;
+  hist=[];busy=false;
   setStatus('✅ Ready • G PAT AI • FREE');
   var msgs=document.getElementById('msgs');
   msgs.innerHTML='<div class="welcome" id="wel"><div class="big">🌀</div><h3>Namaste '+name+'! 😊</h3><p>Kya baat karni hai aaj?</p><div class="qgrid"><button class="qbtn" onclick="go(\'Mujhe bahut stress ho raha hai\')">😔 Stress</button><button class="qbtn" onclick="go(\'Career advice chahiye\')">💼 Career</button><button class="qbtn" onclick="go(\'Bas baat karni hai\')">💬 Baat</button><button class="qbtn" onclick="go(\'Relationship problem hai\')">❤️ Relationship</button></div></div>';
