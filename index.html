@@ -468,37 +468,35 @@ function genPhoto(){
   lc.innerHTML='<div class="iskel"></div><div class="iloading"><div class="ispin"></div><div class="iltxt">बना रहा हूं... ✨</div></div>';
   grid.insertBefore(lc,grid.firstChild);
   document.getElementById('pbody').scrollTop=0;
-  var full=raw+', '+STYS[sty];
-  var enc=encodeURIComponent(full);
-  var seed=Math.floor(Math.random()*99999);
-  var url='https://image.pollinations.ai/prompt/'+enc+'?width=512&height=512&nologo=true&seed='+seed;
   document.getElementById('pprmt').value='';document.getElementById('pprmt').style.height='auto';
-  // Wait 2 seconds before loading to avoid rate limit
-  setTimeout(function(){
-    var img=new Image();
-    img.onload=function(){
-      var c=document.getElementById(cid);
-      if(c){c.className='icard';c.innerHTML='<img src="'+url+'"/><div class="iinfo"><div class="iprompt">'+raw+'</div><div class="iacts"><a class="iact" href="'+url+'" target="_blank">👁️ देखो</a><button class="iact" onclick="shareI(\''+url+'\')">📤 Share</button></div></div>';}
-    };
-    img.onerror=function(){
-      // Retry after 3 more seconds
-      var c=document.getElementById(cid);
-      if(c){c.querySelector('.iltxt').textContent='Retry कर रहा हूं... ⏳';}
-      setTimeout(function(){
-        var img2=new Image();
-        img2.onload=function(){
-          var c2=document.getElementById(cid);
-          if(c2){c2.className='icard';c2.innerHTML='<img src="'+url+'"/><div class="iinfo"><div class="iprompt">'+raw+'</div><div class="iacts"><a class="iact" href="'+url+'" target="_blank">👁️ देखो</a><button class="iact" onclick="shareI(\''+url+'\')">📤 Share</button></div></div>';}
-        };
-        img2.onerror=function(){
-          var c2=document.getElementById(cid);
-          if(c2){c2.className='icard';c2.innerHTML='<div style="padding:16px;text-align:center;"><a href="'+url+'" target="_blank" style="color:#fff;font-size:12px;text-decoration:none;display:block;padding:10px;background:#1a1a1a;border-radius:8px;border:1px solid #333;">🎨 Photo देखने के लिए यहाँ click करो ↗<br/><span style="color:#555;font-size:11px;">'+raw+'</span></a></div>';}
-        };
-        img2.src=url+'&t='+Date.now();
-      },3000);
-    };
-    img.src=url;
-  },2000);
+
+  // Use multiple reliable sources
+  var seed=Math.floor(Math.random()*99999);
+  var aiUrl='https://image.pollinations.ai/prompt/'+encodeURIComponent(raw+', '+STYS[sty])+'?width=512&height=512&nologo=true&seed='+seed;
+  var backupUrl='https://picsum.photos/seed/'+seed+'/512/512';
+
+  function showCard(url,isAi){
+    var c=document.getElementById(cid);
+    if(c){
+      c.className='icard';
+      c.innerHTML='<img src="'+url+'" onerror="this.src=\''+backupUrl+'\'"/><div class="iinfo"><div class="iprompt">'+(isAi?'🎨 ':'')+raw+'</div><div class="iacts"><a class="iact" href="'+url+'" target="_blank">👁️ देखो</a><button class="iact" onclick="shareI(\''+url+'\')">📤 Share</button></div></div>';
+    }
+  }
+
+  // Try AI image first with timeout
+  var tried=false;
+  var timeout=setTimeout(function(){
+    if(!tried){tried=true;showCard(backupUrl,false);}
+  },8000);
+
+  var img=new Image();
+  img.onload=function(){
+    if(!tried){tried=true;clearTimeout(timeout);showCard(aiUrl,true);}
+  };
+  img.onerror=function(){
+    if(!tried){tried=true;clearTimeout(timeout);showCard(backupUrl,false);}
+  };
+  img.src=aiUrl;
 }
 
 function shareI(u){if(navigator.share){navigator.share({title:'G PAT AI Photo',url:u});}else{navigator.clipboard?navigator.clipboard.writeText(u).then(function(){alert('Link copy हो गया!');}).catch(function(){alert('Link: '+u);}):alert('Link: '+u);}}
