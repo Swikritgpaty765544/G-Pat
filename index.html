@@ -473,16 +473,32 @@ function genPhoto(){
   var seed=Math.floor(Math.random()*99999);
   var url='https://image.pollinations.ai/prompt/'+enc+'?width=512&height=512&nologo=true&seed='+seed;
   document.getElementById('pprmt').value='';document.getElementById('pprmt').style.height='auto';
-  var img=new Image();
-  img.onload=function(){
-    var c=document.getElementById(cid);
-    if(c){c.className='icard';c.innerHTML='<img src="'+url+'"/><div class="iinfo"><div class="iprompt">'+raw+'</div><div class="iacts"><a class="iact" href="'+url+'" target="_blank">👁️ देखो</a><button class="iact" onclick="shareI(\''+url+'\')">📤 Share</button></div></div>';}
-  };
-  img.onerror=function(){
-    var c=document.getElementById(cid);
-    if(c){c.className='icard';c.innerHTML='<div style="padding:16px;text-align:center;"><a href="'+url+'" target="_blank" style="color:#fff;font-size:12px;text-decoration:none;display:block;padding:10px;background:#1a1a1a;border-radius:8px;border:1px solid #333;">🎨 Photo देखने के लिए click करो<br/><span style="color:#555;font-size:11px;">'+raw+'</span></a></div>';}
-  };
-  img.src=url;
+  // Wait 2 seconds before loading to avoid rate limit
+  setTimeout(function(){
+    var img=new Image();
+    img.onload=function(){
+      var c=document.getElementById(cid);
+      if(c){c.className='icard';c.innerHTML='<img src="'+url+'"/><div class="iinfo"><div class="iprompt">'+raw+'</div><div class="iacts"><a class="iact" href="'+url+'" target="_blank">👁️ देखो</a><button class="iact" onclick="shareI(\''+url+'\')">📤 Share</button></div></div>';}
+    };
+    img.onerror=function(){
+      // Retry after 3 more seconds
+      var c=document.getElementById(cid);
+      if(c){c.querySelector('.iltxt').textContent='Retry कर रहा हूं... ⏳';}
+      setTimeout(function(){
+        var img2=new Image();
+        img2.onload=function(){
+          var c2=document.getElementById(cid);
+          if(c2){c2.className='icard';c2.innerHTML='<img src="'+url+'"/><div class="iinfo"><div class="iprompt">'+raw+'</div><div class="iacts"><a class="iact" href="'+url+'" target="_blank">👁️ देखो</a><button class="iact" onclick="shareI(\''+url+'\')">📤 Share</button></div></div>';}
+        };
+        img2.onerror=function(){
+          var c2=document.getElementById(cid);
+          if(c2){c2.className='icard';c2.innerHTML='<div style="padding:16px;text-align:center;"><a href="'+url+'" target="_blank" style="color:#fff;font-size:12px;text-decoration:none;display:block;padding:10px;background:#1a1a1a;border-radius:8px;border:1px solid #333;">🎨 Photo देखने के लिए यहाँ click करो ↗<br/><span style="color:#555;font-size:11px;">'+raw+'</span></a></div>';}
+        };
+        img2.src=url+'&t='+Date.now();
+      },3000);
+    };
+    img.src=url;
+  },2000);
 }
 
 function shareI(u){if(navigator.share){navigator.share({title:'G PAT AI Photo',url:u});}else{navigator.clipboard?navigator.clipboard.writeText(u).then(function(){alert('Link copy हो गया!');}).catch(function(){alert('Link: '+u);}):alert('Link: '+u);}}
