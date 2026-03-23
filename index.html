@@ -481,32 +481,51 @@ function generatePhoto(){
   var fullPrompt=rawPrompt+', '+styleDesc;
   var encoded=encodeURIComponent(fullPrompt);
   var seed=Math.floor(Math.random()*99999);
-  var url='https://image.pollinations.ai/prompt/'+encoded+'?width=512&height=512&nologo=true&seed='+seed;
-
   document.getElementById('photo-prompt').value='';
   document.getElementById('photo-prompt').style.height='auto';
 
-  var img=new Image();
-  img.onload=function(){
-    var card=document.getElementById(cardId);
-    if(card){
-      card.className='img-card';
-      card.innerHTML=
-        '<img src="'+url+'" alt="'+rawPrompt.replace(/"/g,'')+'"/>'+
-        '<div class="img-info">'+
-          '<div class="img-prompt">'+rawPrompt+'</div>'+
-          '<div class="img-actions">'+
-            '<button class="img-action" onclick="downloadImg(\''+url+'\','+imgCount+')">⬇️ Save</button>'+
-            '<button class="img-action" onclick="shareImg(\''+url+'\')">📤 Share</button>'+
-          '</div>'+
-        '</div>';
+  // Try multiple image sources
+  var urls=[
+    'https://image.pollinations.ai/prompt/'+encoded+'?width=512&height=512&nologo=true&seed='+seed,
+    'https://picsum.photos/seed/'+seed+'/512/512'
+  ];
+
+  var tried=0;
+  function tryLoad(urlIndex){
+    if(urlIndex>=urls.length){
+      var card=document.getElementById(cardId);
+      if(card){
+        card.className='img-card';
+        // Show as link if image can't load directly
+        card.innerHTML='<div style="padding:16px;text-align:center;">'+
+          '<a href="'+urls[0]+'" target="_blank" style="color:#fff;font-size:13px;text-decoration:none;display:block;padding:12px;background:#1a1a1a;border-radius:10px;border:1px solid #333;">'+
+          '🎨 Photo देखने के लिए यहाँ click करो<br/><span style="font-size:11px;color:#aaa;margin-top:4px;display:block;">'+rawPrompt+'</span></a>'+
+          '</div>';
+      }
+      return;
     }
-  };
-  img.onerror=function(){
-    var card=document.getElementById(cardId);
-    if(card){card.className='img-card';card.innerHTML='<div style="padding:16px;color:#f87171;font-size:13px;text-align:center;">❌ Error<br/>दोबारा try करो</div>';}
-  };
-  img.src=url;
+    var url=urls[urlIndex];
+    var img=new Image();
+    img.crossOrigin='anonymous';
+    img.onload=function(){
+      var card=document.getElementById(cardId);
+      if(card){
+        card.className='img-card';
+        card.innerHTML=
+          '<img src="'+url+'" alt="'+rawPrompt.replace(/"/g,'')+'"/>'+
+          '<div class="img-info">'+
+            '<div class="img-prompt">'+rawPrompt+'</div>'+
+            '<div class="img-actions">'+
+              '<a class="img-action" href="'+url+'" target="_blank">👁️ देखो</a>'+
+              '<button class="img-action" onclick="shareImg(\''+urls[0]+'\')">📤 Share</button>'+
+            '</div>'+
+          '</div>';
+      }
+    };
+    img.onerror=function(){tryLoad(urlIndex+1);};
+    setTimeout(function(){img.src=url;},100);
+  }
+  tryLoad(0);
 }
 
 function downloadImg(url,id){
