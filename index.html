@@ -3,94 +3,143 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>G PAT AI</title>
+<meta name="theme-color" content="#6366f1"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-title" content="G PAT AI"/>
+<title>G PAT AI — Emotional Intelligence</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:sans-serif;background:#fff;height:100vh;display:flex;flex-direction:column;overflow:hidden;}
-@keyframes bounce{0%,80%,100%{transform:translateY(0);opacity:.35}40%{transform:translateY(-5px);opacity:1}}
-@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+body{font-family:'Inter','Noto Sans Devanagari',sans-serif;background:#fff;height:100dvh;display:flex;flex-direction:column;overflow:hidden;color:#111;}
+@keyframes bounce{0%,80%,100%{transform:translateY(0);opacity:.35}40%{transform:translateY(-6px);opacity:1}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(99,102,241,.3)}50%{box-shadow:0 0 0 8px rgba(99,102,241,0)}}
 
-#setup{display:flex;align-items:center;justify-content:center;height:100vh;padding:16px;background:#f0f0ff;}
-.card{background:#fff;border-radius:16px;padding:24px;width:100%;max-width:380px;box-shadow:0 4px 20px rgba(0,0,0,.1);text-align:center;}
-.card h1{font-size:40px;margin-bottom:8px;}
-.card h2{font-size:18px;font-weight:700;margin-bottom:4px;color:#111;}
-.card .sub{font-size:13px;color:#666;margin-bottom:14px;}
-.card input{width:100%;padding:12px;border:2px solid #ddd;border-radius:10px;font-size:15px;margin-bottom:10px;display:block;font-family:sans-serif;}
-.card input:focus{border-color:#6366f1;outline:none;}
-.steps{background:#f0fff4;border-radius:10px;padding:12px;margin-bottom:12px;text-align:left;font-size:13px;color:#166534;line-height:1.9;border:1px solid #bbf7d0;}
-.steps a{color:#6366f1;font-weight:700;}
-.go-btn{width:100%;padding:14px;background:#6366f1;color:#fff;border:none;border-radius:10px;font-size:16px;font-weight:700;cursor:pointer;}
-.note{font-size:11px;color:#999;margin-top:10px;line-height:1.5;}
+/* SETUP */
+#setup{display:flex;align-items:center;justify-content:center;min-height:100dvh;padding:20px;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);}
+.card{background:#fff;border-radius:24px;padding:32px 24px;width:100%;max-width:400px;box-shadow:0 20px 60px rgba(0,0,0,.2);text-align:center;}
+.card-logo{width:72px;height:72px;background:linear-gradient(135deg,#6366f1,#8b5cf6);border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:36px;margin:0 auto 16px;box-shadow:0 8px 24px rgba(99,102,241,.3);}
+.card h2{font-size:22px;font-weight:700;color:#111;margin-bottom:4px;}
+.card .sub{font-size:13px;color:#888;margin-bottom:20px;}
+.badge{display:inline-flex;align-items:center;gap:5px;background:#f0fdf4;color:#16a34a;font-size:12px;font-weight:600;padding:5px 12px;border-radius:20px;margin-bottom:18px;border:1px solid #bbf7d0;}
+.inp-group{margin-bottom:12px;text-align:left;}
+.inp-group label{font-size:12px;font-weight:600;color:#666;margin-bottom:4px;display:block;letter-spacing:.5px;text-transform:uppercase;}
+.inp-group input{width:100%;padding:12px 14px;border:2px solid #e5e7eb;border-radius:12px;font-size:14px;font-family:'Inter',sans-serif;transition:border-color .2s;}
+.inp-group input:focus{border-color:#6366f1;outline:none;box-shadow:0 0 0 3px rgba(99,102,241,.1);}
+.steps-box{background:#f8faff;border-radius:12px;padding:14px;margin-bottom:16px;text-align:left;border:1px solid #e0e7ff;}
+.steps-box .title{font-size:12px;font-weight:700;color:#6366f1;margin-bottom:8px;letter-spacing:.5px;text-transform:uppercase;}
+.step-row{display:flex;align-items:flex-start;gap:8px;margin-bottom:6px;font-size:12.5px;color:#555;line-height:1.5;}
+.step-row:last-child{margin-bottom:0;}
+.snum{min-width:20px;height:20px;background:#6366f1;color:#fff;border-radius:50%;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.step-row a{color:#6366f1;font-weight:600;text-decoration:none;}
+.go-btn{width:100%;padding:14px;background:linear-gradient(135deg,#6366f1,#7c3aed);color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;letter-spacing:.3px;box-shadow:0 4px 15px rgba(99,102,241,.3);transition:transform .15s;}
+.go-btn:active{transform:scale(.97);}
+.note{font-size:11px;color:#aaa;margin-top:12px;line-height:1.6;}
 
-#app{display:none;flex-direction:column;height:100vh;overflow:hidden;}
+/* APP */
+#app{display:none;flex-direction:column;height:100dvh;overflow:hidden;}
 
-#hdr{background:#6366f1;color:#fff;padding:11px 14px;display:flex;align-items:center;gap:10px;flex-shrink:0;}
-.hlogo{font-size:22px;}
-.hname{font-weight:700;font-size:15px;}
-.hsub{font-size:10px;opacity:.8;}
-.hright{margin-left:auto;display:flex;gap:8px;}
-.hbtn{background:rgba(255,255,255,.2);color:#fff;border:none;padding:7px 12px;border-radius:8px;font-size:16px;cursor:pointer;}
+/* Header */
+#hdr{background:linear-gradient(135deg,#6366f1,#7c3aed);color:#fff;padding:12px 16px;display:flex;align-items:center;gap:10px;flex-shrink:0;box-shadow:0 2px 12px rgba(99,102,241,.3);}
+.hlogo{width:36px;height:36px;background:rgba(255,255,255,.2);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.hname{font-weight:700;font-size:15px;letter-spacing:-.2px;}
+.hsub{font-size:10px;opacity:.75;margin-top:1px;}
+.hright{margin-left:auto;display:flex;gap:6px;}
+.hbtn{background:rgba(255,255,255,.15);color:#fff;border:none;padding:7px 11px;border-radius:9px;font-size:15px;cursor:pointer;backdrop-filter:blur(4px);transition:background .15s;}
+.hbtn:active{background:rgba(255,255,255,.3);}
+.online-dot{width:7px;height:7px;border-radius:50%;background:#4ade80;flex-shrink:0;animation:pulse 2s infinite;}
 
-#set-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.4);z-index:50;}
+/* Settings */
+#set-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);z-index:50;backdrop-filter:blur(2px);}
 #set-overlay.on{display:block;}
-#set-menu{display:none;position:fixed;top:0;right:0;width:220px;height:100%;background:#fff;z-index:51;flex-direction:column;box-shadow:-4px 0 20px rgba(0,0,0,.15);}
+#set-menu{display:none;position:fixed;top:0;right:0;width:240px;height:100%;background:#fff;z-index:51;flex-direction:column;box-shadow:-4px 0 30px rgba(0,0,0,.15);}
 #set-menu.on{display:flex;}
-.sm-hdr{background:#6366f1;color:#fff;padding:20px 16px;}
-.sm-hdr h3{font-size:16px;font-weight:700;}
-.sm-hdr p{font-size:11px;opacity:.8;margin-top:2px;}
-.sm-body{flex:1;padding:12px;}
-.sm-item{display:flex;align-items:center;gap:12px;padding:14px 12px;border-radius:10px;cursor:pointer;margin-bottom:4px;border:1px solid #f0f0f0;font-size:14px;color:#374151;font-weight:500;}
-.sm-item .ic{font-size:20px;}
-.sm-item.red{color:#ef4444;border-color:#fee2e2;}
-.sm-foot{padding:12px;border-top:1px solid #eee;}
-.sm-foot button{width:100%;padding:10px;border:1px solid #ddd;background:#f9fafb;border-radius:8px;font-size:14px;cursor:pointer;color:#666;}
+.sm-hdr{background:linear-gradient(135deg,#6366f1,#7c3aed);color:#fff;padding:24px 16px 20px;}
+.sm-hdr h3{font-size:17px;font-weight:700;margin-bottom:2px;}
+.sm-hdr p{font-size:12px;opacity:.75;}
+.sm-body{flex:1;padding:12px;overflow-y:auto;}
+.sm-section{font-size:10px;font-weight:700;color:#aaa;letter-spacing:.8px;text-transform:uppercase;padding:8px 8px 4px;}
+.sm-item{display:flex;align-items:center;gap:12px;padding:13px 12px;border-radius:12px;cursor:pointer;margin-bottom:3px;transition:background .15s;}
+.sm-item:hover{background:#f5f5ff;}
+.sm-item .ic{font-size:20px;width:28px;text-align:center;}
+.sm-item .sm-label{font-size:14px;color:#374151;font-weight:500;}
+.sm-item.red .sm-label{color:#ef4444;}
+.sm-foot{padding:12px;border-top:1px solid #f0f0f0;}
+.sm-close-btn{width:100%;padding:11px;border:1.5px solid #e5e7eb;background:#fff;border-radius:10px;font-size:14px;cursor:pointer;color:#666;font-weight:500;}
 
-#msgs{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:8px;background:#f5f5f5;}
-.welcome{text-align:center;padding:20px 10px;margin:auto;}
-.welcome .big{font-size:52px;margin-bottom:12px;}
-.welcome h3{font-size:19px;font-weight:700;color:#111;margin-bottom:6px;}
-.welcome p{font-size:13px;color:#777;line-height:1.6;margin-bottom:18px;}
-.qgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;max-width:360px;margin:0 auto;}
-.qbtn{background:#fff;border:2px solid #e5e7eb;border-radius:12px;padding:10px;font-size:12px;color:#374151;cursor:pointer;font-weight:600;text-align:left;}
+/* Messages */
+#msgs{flex:1;overflow-y:auto;padding:14px 12px 8px;display:flex;flex-direction:column;gap:10px;background:#f8f9fb;}
+#msgs::-webkit-scrollbar{width:3px;}
+#msgs::-webkit-scrollbar-thumb{background:#ddd;border-radius:4px;}
 
-.bubble{max-width:82%;padding:10px 13px;border-radius:16px;font-size:14px;line-height:1.65;word-break:break-word;white-space:pre-wrap;animation:fadeUp .3s ease;}
-.bubble.ai{background:#fff;color:#111;border-radius:4px 16px 16px 16px;box-shadow:0 1px 4px rgba(0,0,0,.08);align-self:flex-start;}
-.bubble.user{background:#6366f1;color:#fff;border-radius:16px 4px 16px 16px;align-self:flex-end;}
-.typing-div{background:#fff;border-radius:4px 16px 16px 16px;padding:12px 16px;align-self:flex-start;box-shadow:0 1px 4px rgba(0,0,0,.08);}
-.dots{display:flex;gap:4px;}
-.dot{width:7px;height:7px;border-radius:50%;background:#aaa;animation:bounce 1.2s infinite;}
+.welcome{text-align:center;padding:24px 16px;margin:auto;}
+.w-logo{width:76px;height:76px;background:linear-gradient(135deg,#6366f1,#8b5cf6);border-radius:22px;display:flex;align-items:center;justify-content:center;font-size:38px;margin:0 auto 16px;box-shadow:0 8px 24px rgba(99,102,241,.25);}
+.welcome h3{font-size:20px;font-weight:700;color:#111;margin-bottom:6px;}
+.welcome p{font-size:13.5px;color:#777;line-height:1.7;margin-bottom:22px;max-width:280px;margin-left:auto;margin-right:auto;}
+.qgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;max-width:340px;margin:0 auto;}
+.qbtn{background:#fff;border:1.5px solid #e5e7eb;border-radius:14px;padding:12px 10px;font-size:12px;color:#374151;cursor:pointer;font-weight:600;text-align:left;line-height:1.4;transition:all .15s;box-shadow:0 1px 4px rgba(0,0,0,.05);}
+.qbtn:active{background:#f0f4ff;border-color:#6366f1;transform:scale(.97);}
+
+/* Message row */
+.msg-row{display:flex;gap:8px;align-items:flex-end;animation:fadeUp .3s ease;}
+.msg-row.user{flex-direction:row-reverse;}
+.av{width:30px;height:30px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:14px;}
+.av.ai{background:linear-gradient(135deg,#6366f1,#8b5cf6);box-shadow:0 2px 8px rgba(99,102,241,.3);}
+.av.hu{background:linear-gradient(135deg,#e5e7eb,#d1d5db);}
+.bubble{max-width:80%;padding:10px 14px;border-radius:18px;font-size:14px;line-height:1.7;word-break:break-word;white-space:pre-wrap;}
+.bubble.ai{background:#fff;color:#111;border-radius:4px 18px 18px 18px;box-shadow:0 1px 6px rgba(0,0,0,.07);}
+.bubble.user{background:linear-gradient(135deg,#6366f1,#7c3aed);color:#fff;border-radius:18px 4px 18px 18px;box-shadow:0 2px 10px rgba(99,102,241,.25);}
+
+.typing-row{display:flex;gap:8px;align-items:flex-end;}
+.typing-bub{background:#fff;border-radius:4px 18px 18px 18px;padding:12px 16px;box-shadow:0 1px 6px rgba(0,0,0,.07);}
+.dots{display:flex;gap:5px;align-items:center;}
+.dot{width:7px;height:7px;border-radius:50%;background:#bbb;animation:bounce 1.2s infinite ease-in-out;}
 .dot:nth-child(2){animation-delay:.2s;}
 .dot:nth-child(3){animation-delay:.4s;}
 
-#inp{background:#fff;border-top:1px solid #eee;padding:10px 12px;display:flex;gap:8px;align-items:flex-end;flex-shrink:0;}
-#ta{flex:1;border:2px solid #e5e7eb;border-radius:12px;padding:10px 12px;font-size:15px;resize:none;max-height:100px;line-height:1.5;font-family:sans-serif;}
-#ta:focus{border-color:#6366f1;outline:none;}
-#sbtn{width:48px;height:48px;min-width:48px;background:#6366f1;color:#fff;border:none;border-radius:12px;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 10px rgba(99,102,241,.4);}
-#sbtn:active{transform:scale(.92);}
-#st{text-align:center;font-size:11px;color:#10b981;padding:5px;background:#fff;}
+/* Input */
+#inp-area{background:#fff;border-top:1px solid #eee;padding:10px 12px 14px;flex-shrink:0;}
+#inp-row{display:flex;gap:8px;align-items:flex-end;}
+#ta{flex:1;border:2px solid #e5e7eb;border-radius:14px;padding:11px 14px;font-size:14px;resize:none;max-height:100px;line-height:1.55;font-family:'Inter','Noto Sans Devanagari',sans-serif;background:#f8f9fb;transition:border-color .2s,background .2s;}
+#ta:focus{border-color:#6366f1;background:#fff;outline:none;box-shadow:0 0 0 3px rgba(99,102,241,.1);}
+#sbtn{width:46px;height:46px;min-width:46px;background:linear-gradient(135deg,#6366f1,#7c3aed);color:#fff;border:none;border-radius:13px;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 12px rgba(99,102,241,.35);transition:transform .15s;}
+#sbtn:active{transform:scale(.9);}
+#st{text-align:center;font-size:10.5px;color:#10b981;padding:5px 0 0;letter-spacing:.2px;}
 </style>
 </head>
 <body>
 
+<!-- SETUP -->
 <div id="setup">
 <div class="card">
-  <h1>🌀</h1>
+  <div class="card-logo">🌀</div>
   <h2>G PAT AI</h2>
-  <div class="sub">Emotional Intelligence • FREE</div>
-  <div class="steps">
-    🚀 <b>Groq FREE API Key (2 min):</b><br>
-    1. <a href="https://console.groq.com" target="_blank">console.groq.com</a> खोलो<br>
-    2. Google से Sign In करो<br>
-    3. <b>"API Keys"</b> → <b>"Create API Key"</b><br>
-    4. Key copy करो (<b>gsk_...</b> से शुरू)
+  <div class="sub">Emotional Intelligence • Your AI Friend</div>
+  <div class="badge">✅ बिल्कुल FREE • No Credit Card</div>
+
+  <div class="inp-group">
+    <label>आपका नाम</label>
+    <input type="text" id="nInp" placeholder="जैसे: Swikrit"/>
   </div>
-  <input type="text" id="nInp" placeholder="Aapka naam? (jaise: Swikrit)"/>
-  <input type="password" id="kInp" placeholder="gsk_..."/>
-  <button class="go-btn" onclick="doStart()">🚀 Shuru Karen</button>
-  <div class="note">Key sirf aapke phone me rahegi। किसी को share mat karna।</div>
+
+  <div class="steps-box">
+    <div class="title">🔑 Free API Key (2 min)</div>
+    <div class="step-row"><div class="snum">1</div><div><a href="https://console.groq.com" target="_blank">console.groq.com</a> → Google से login करो</div></div>
+    <div class="step-row"><div class="snum">2</div><div><b>API Keys → Create API Key</b> → Copy करो</div></div>
+    <div class="step-row"><div class="snum">3</div><div>नीचे paste करो → Start!</div></div>
+  </div>
+
+  <div class="inp-group">
+    <label>Groq API Key</label>
+    <input type="password" id="kInp" placeholder="gsk_..."/>
+  </div>
+
+  <button class="go-btn" onclick="doStart()">🚀 G PAT AI शुरू करें</button>
+  <div class="note">🔒 आपकी key सिर्फ आपके phone में रहेगी। किसी को share न करें।</div>
 </div>
 </div>
 
+<!-- Settings -->
 <div id="set-overlay" onclick="closeSet()"></div>
 <div id="set-menu">
   <div class="sm-hdr">
@@ -98,27 +147,33 @@ body{font-family:sans-serif;background:#fff;height:100vh;display:flex;flex-direc
     <p id="sm-name">G PAT AI</p>
   </div>
   <div class="sm-body">
+    <div class="sm-section">Chat</div>
     <div class="sm-item" onclick="newChat();closeSet();">
-      <span class="ic">✏️</span> New Chat
+      <span class="ic">✏️</span><span class="sm-label">New Chat</span>
     </div>
+    <div class="sm-section">Account</div>
     <div class="sm-item" onclick="changeKey()">
-      <span class="ic">🔑</span> API Key Change
+      <span class="ic">🔑</span><span class="sm-label">API Key Change</span>
     </div>
     <div class="sm-item red" onclick="logout()">
-      <span class="ic">🚪</span> Logout
+      <span class="ic">🚪</span><span class="sm-label">Logout</span>
     </div>
   </div>
   <div class="sm-foot">
-    <button onclick="closeSet()">✕ Band Karo</button>
+    <button class="sm-close-btn" onclick="closeSet()">✕ बंद करो</button>
   </div>
 </div>
 
+<!-- APP -->
 <div id="app">
   <div id="hdr">
     <div class="hlogo">🌀</div>
     <div>
       <div class="hname">G PAT AI</div>
       <div class="hsub" id="hsub">Emotional Intelligence</div>
+    </div>
+    <div style="margin-left:8px;display:flex;align-items:center;gap:4px;">
+      <div class="online-dot"></div>
     </div>
     <div class="hright">
       <button class="hbtn" onclick="newChat()">✏️</button>
@@ -128,47 +183,44 @@ body{font-family:sans-serif;background:#fff;height:100vh;display:flex;flex-direc
 
   <div id="msgs">
     <div class="welcome" id="wel">
-      <div class="big">🌀</div>
-      <h3 id="wt">Namaste! Main G PAT AI hun</h3>
-      <p id="wp">Aapki feelings samajhta hun.</p>
+      <div class="w-logo">🌀</div>
+      <h3 id="wt">नमस्ते! मैं G PAT AI हूं</h3>
+      <p id="wp">आपकी feelings समझता हूं, दिल से बात करता हूं और हर problem solve करने की कोशिश करूंगा।</p>
       <div class="qgrid">
-        <button class="qbtn" onclick="go('Mujhe bahut stress ho raha hai')">😔 Stress ho raha hai</button>
+        <button class="qbtn" onclick="go('Mujhe bahut stress ho raha hai')">😔 Stress हो रहा है</button>
         <button class="qbtn" onclick="go('Career advice chahiye')">💼 Career advice</button>
-        <button class="qbtn" onclick="go('Bas baat karni hai')">💬 Baat karni hai</button>
+        <button class="qbtn" onclick="go('Bas baat karni hai')">💬 बात करनी है</button>
         <button class="qbtn" onclick="go('Relationship mein problem hai')">❤️ Relationship</button>
       </div>
     </div>
   </div>
 
-  <div id="st">✅ Ready • G PAT AI • FREE</div>
-
-  <div id="inp">
-    <textarea id="ta" rows="1" placeholder="Yahan likho..."></textarea>
-    <button id="sbtn" onclick="go()">➤</button>
+  <div id="inp-area">
+    <div id="inp-row">
+      <textarea id="ta" rows="1" placeholder="यहाँ लिखो... (Hindi / English / Hinglish)"></textarea>
+      <button id="sbtn" onclick="go()">➤</button>
+    </div>
+    <div id="st">✅ Connected • G PAT AI • FREE</div>
   </div>
 </div>
 
 <script>
 var hist=[],busy=false,key='',name='';
 
-function sys(){
-  return "You are G PAT AI - a warm, empathetic AI friend. User name: "+name+". Always use their name naturally. Acknowledge feelings first before solutions. Respond in same language as user (Hindi/English/Hinglish). Be warm, caring, conversational. Keep responses concise and helpful.";
-}
+function sys(){return "You are G PAT AI - a warm, deeply empathetic AI friend and companion. User's name: "+name+". Always address them by name naturally. ALWAYS acknowledge emotions first before giving solutions. Speak warmly like a caring friend. Respond in the same language as the user (Hindi/English/Hinglish). Be concise, warm, and helpful. Make the user feel heard and valued.";}
 
 window.onload=function(){
-  var k=localStorage.getItem('gk');
-  var n=localStorage.getItem('gn');
+  var k=localStorage.getItem('gk'),n=localStorage.getItem('gn');
   if(k&&n){key=k;name=n;launch();}
 };
 
 function doStart(){
   var n=document.getElementById('nInp').value.trim();
   var k=document.getElementById('kInp').value.trim();
-  if(!n){alert('Naam daalo!');return;}
-  if(!k){alert('API Key daalo!');return;}
+  if(!n){alert('अपना नाम डालो!');return;}
+  if(!k){alert('API Key डालो!');return;}
   name=n;key=k;
-  localStorage.setItem('gk',k);
-  localStorage.setItem('gn',n);
+  localStorage.setItem('gk',k);localStorage.setItem('gn',n);
   launch();
 }
 
@@ -176,9 +228,9 @@ function launch(){
   document.getElementById('setup').style.display='none';
   document.getElementById('app').style.display='flex';
   document.getElementById('hsub').textContent='Hello, '+name+'! 👋';
-  document.getElementById('wt').textContent='Namaste '+name+'! Main G PAT AI hun 🌀';
-  document.getElementById('wp').textContent=name+', main aapki feelings samajhta hun aur poori koshish karunga.';
-  document.getElementById('sm-name').textContent='Hello, '+name+'!';
+  document.getElementById('wt').textContent='नमस्ते '+name+'! मैं G PAT AI हूं 🌀';
+  document.getElementById('wp').textContent=name+', मैं आपकी feelings समझता हूं और हर problem solve करने की कोशिश करूंगा।';
+  document.getElementById('sm-name').textContent='Hello, '+name+'! 👋';
 }
 
 function openSet(){document.getElementById('set-menu').classList.add('on');document.getElementById('set-overlay').classList.add('on');}
@@ -186,21 +238,12 @@ function closeSet(){document.getElementById('set-menu').classList.remove('on');d
 
 function changeKey(){
   closeSet();
-  var k=prompt('Nai Groq API Key paste karo (gsk_...):');
-  if(k&&k.trim()){
-    key=k.trim();
-    localStorage.setItem('gk',key);
-    setStatus('✅ Key Save Ho Gayi!');
-    alert('✅ Key change ho gayi, '+name+'!');
-  }
+  var k=prompt('नई Groq API Key paste करो (gsk_...):');
+  if(k&&k.trim()){key=k.trim();localStorage.setItem('gk',key);setStatus('✅ Key Save हो गई!');alert('✅ Key change हो गई, '+name+'!');}
 }
 
 function logout(){
-  if(confirm('Logout karna chahte ho?')){
-    localStorage.removeItem('gk');
-    localStorage.removeItem('gn');
-    location.reload();
-  }
+  if(confirm('Logout करना चाहते हो?')){localStorage.removeItem('gk');localStorage.removeItem('gn');location.reload();}
 }
 
 var ta=document.getElementById('ta');
@@ -212,18 +255,18 @@ function scrollDown(){var m=document.getElementById('msgs');m.scrollTop=m.scroll
 function addMsg(role,text){
   var w=document.getElementById('wel');if(w)w.remove();
   var msgs=document.getElementById('msgs');
-  var d=document.createElement('div');
-  d.className='bubble '+(role==='user'?'user':'ai');
-  d.textContent=text;
-  msgs.appendChild(d);scrollDown();
+  var row=document.createElement('div');
+  row.className='msg-row'+(role==='user'?' user':'');
+  row.innerHTML='<div class="av '+(role==='assistant'?'ai':'hu')+'">'+(role==='assistant'?'🌀':'👤')+'</div><div class="bubble '+(role==='assistant'?'ai':'user')+'">'+text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')+'</div>';
+  msgs.appendChild(row);scrollDown();
 }
 
 function showTyping(s){
   var old=document.getElementById('typ');if(old)old.remove();
   if(s){
     var msgs=document.getElementById('msgs');
-    var d=document.createElement('div');d.id='typ';d.className='typing-div';
-    d.innerHTML='<div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>';
+    var d=document.createElement('div');d.id='typ';d.className='typing-row';
+    d.innerHTML='<div class="av ai">🌀</div><div class="typing-bub"><div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>';
     msgs.appendChild(d);scrollDown();
   }
 }
@@ -236,42 +279,27 @@ async function go(txt){
   if(!text)return;
   ta.value='';ta.style.height='auto';
   busy=true;
-  setStatus('⏳ Soch raha hun...','#f59e0b');
+  setStatus('⏳ सोच रहा हूं...','#f59e0b');
   addMsg('user',text);
   hist.push({role:'user',content:text});
   showTyping(true);
-
   try{
-    var messages=[{role:'system',content:sys()}].concat(hist);
     var res=await fetch('https://api.groq.com/openai/v1/chat/completions',{
       method:'POST',
-      headers:{
-        'Content-Type':'application/json',
-        'Authorization':'Bearer '+key
-      },
-      body:JSON.stringify({
-        model:'llama-3.1-8b-instant',
-        messages:messages,
-        max_tokens:500,
-        temperature:0.8
-      })
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},
+      body:JSON.stringify({model:'llama-3.1-8b-instant',messages:[{role:'system',content:sys()}].concat(hist),max_tokens:500,temperature:0.8})
     });
     var data=await res.json();
     if(data.choices&&data.choices[0]&&data.choices[0].message){
       var reply=data.choices[0].message.content;
       hist.push({role:'assistant',content:reply});
-      showTyping(false);
-      addMsg('assistant',reply);
+      showTyping(false);addMsg('assistant',reply);
       setStatus('✅ Connected • Groq AI • FREE');
-    } else if(data.error){
-      throw new Error(data.error.message);
-    } else {
-      throw new Error('Kuch galat ho gaya');
-    }
-  } catch(e){
+    } else {throw new Error(data.error?data.error.message:'Unknown error');}
+  }catch(e){
     showTyping(false);
     setStatus('❌ Error','#ef4444');
-    addMsg('assistant',name+', error aayi: '+e.message+'\n\n⚙️ Settings > API Key Change karo. 🙏');
+    addMsg('assistant',name+', कुछ problem आई: '+e.message+'\n\n⚙️ Settings > API Key Change करो। 🙏');
   }
   busy=false;
 }
@@ -279,8 +307,7 @@ async function go(txt){
 function newChat(){
   hist=[];busy=false;
   setStatus('✅ Ready • G PAT AI • FREE');
-  var msgs=document.getElementById('msgs');
-  msgs.innerHTML='<div class="welcome" id="wel"><div class="big">🌀</div><h3>Namaste '+name+'! 😊</h3><p>Kya baat karni hai aaj?</p><div class="qgrid"><button class="qbtn" onclick="go(\'Mujhe bahut stress ho raha hai\')">😔 Stress</button><button class="qbtn" onclick="go(\'Career advice chahiye\')">💼 Career</button><button class="qbtn" onclick="go(\'Bas baat karni hai\')">💬 Baat</button><button class="qbtn" onclick="go(\'Relationship problem hai\')">❤️ Relationship</button></div></div>';
+  document.getElementById('msgs').innerHTML='<div class="welcome" id="wel"><div class="w-logo">🌀</div><h3>नमस्ते '+name+'! 😊</h3><p>आज क्या बात करनी है?</p><div class="qgrid"><button class="qbtn" onclick="go(\'Mujhe bahut stress ho raha hai\')">😔 Stress हो रहा है</button><button class="qbtn" onclick="go(\'Career advice chahiye\')">💼 Career advice</button><button class="qbtn" onclick="go(\'Bas baat karni hai\')">💬 बात करनी है</button><button class="qbtn" onclick="go(\'Relationship mein problem hai\')">❤️ Relationship</button></div></div>';
 }
 </script>
 </body>
