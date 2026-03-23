@@ -8,13 +8,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
-:root{--bg:#0a0a0a;--bg2:#111;--bg3:#1a1a1a;--card:#161616;--border:#2a2a2a;--border2:#333;--text:#f0f0f0;--text2:#aaa;--text3:#555;--accent:#fff;}
+:root{--bg:#0a0a0a;--bg2:#111;--bg3:#1a1a1a;--card:#161616;--border:#2a2a2a;--border2:#333;--text:#f0f0f0;--text2:#aaa;--text3:#555;}
 body{font-family:'Inter','Noto Sans Devanagari',sans-serif;background:var(--bg);color:var(--text);height:100dvh;display:flex;flex-direction:column;overflow:hidden;}
 @keyframes bounce{0%,80%,100%{transform:translateY(0);opacity:.3}40%{transform:translateY(-5px);opacity:1}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-@keyframes glow{0%,100%{box-shadow:0 0 20px rgba(255,255,255,.1)}50%{box-shadow:0 0 40px rgba(255,255,255,.25)}}
-@keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.15);opacity:.7}}
+@keyframes glow{0%,100%{box-shadow:0 0 20px rgba(255,255,255,.1)}50%{box-shadow:0 0 40px rgba(255,255,255,.2)}}
 @keyframes spin{to{transform:rotate(360deg)}}
+@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
 
 /* SETUP */
 #setup{display:flex;align-items:center;justify-content:center;min-height:100dvh;padding:20px;background:var(--bg);}
@@ -39,7 +39,7 @@ body{font-family:'Inter','Noto Sans Devanagari',sans-serif;background:var(--bg);
 .sn{min-width:17px;height:17px;background:#fff;color:#000;border-radius:50%;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
 .step-r a{color:#fff;font-weight:600;text-decoration:none;}
 .go-btn{width:100%;padding:14px;background:#fff;color:#000;border:none;border-radius:11px;font-size:15px;font-weight:700;cursor:pointer;transition:all .15s;}
-.go-btn:active{transform:scale(.97);background:#e0e0e0;}
+.go-btn:active{transform:scale(.97);}
 .note{font-size:10px;color:var(--text3);margin-top:10px;line-height:1.6;}
 
 /* APP */
@@ -51,10 +51,15 @@ body{font-family:'Inter','Noto Sans Devanagari',sans-serif;background:var(--bg);
 .hname{font-weight:700;font-size:14px;color:#fff;}
 .hsub{font-size:10px;color:var(--text3);}
 .hright{margin-left:auto;display:flex;gap:5px;align-items:center;}
-.hbtn{background:var(--bg3);color:var(--text2);border:1px solid var(--border);padding:6px 10px;border-radius:8px;font-size:13px;cursor:pointer;transition:all .15s;}
-.hbtn:active{background:var(--border2);}
+.hbtn{background:var(--bg3);color:var(--text2);border:1px solid var(--border);padding:6px 10px;border-radius:8px;font-size:13px;cursor:pointer;}
 .online-dot{width:6px;height:6px;border-radius:50%;background:#4ade80;flex-shrink:0;}
 #lang-badge{font-size:9px;font-weight:700;background:rgba(255,255,255,.08);color:#aaa;padding:3px 7px;border-radius:5px;border:1px solid var(--border);letter-spacing:.5px;}
+
+/* Tabs */
+#tabs{display:flex;background:var(--bg2);border-bottom:1px solid var(--border);flex-shrink:0;}
+.tab{flex:1;padding:10px;text-align:center;font-size:12px;font-weight:600;color:var(--text3);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;}
+.tab.active{color:#fff;border-bottom-color:#fff;}
+.tab span{margin-right:4px;}
 
 /* Settings */
 #set-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.7);z-index:50;backdrop-filter:blur(4px);}
@@ -80,11 +85,11 @@ body{font-family:'Inter','Noto Sans Devanagari',sans-serif;background:var(--bg);
 .sm-foot{padding:10px;border-top:1px solid var(--border);}
 .sm-close-btn{width:100%;padding:10px;border:1px solid var(--border2);background:var(--bg3);border-radius:9px;font-size:13px;cursor:pointer;color:var(--text2);}
 
-/* Messages */
+/* CHAT TAB */
+#chat-tab{display:flex;flex-direction:column;flex:1;overflow:hidden;}
 #msgs{flex:1;overflow-y:auto;padding:12px 10px 6px;display:flex;flex-direction:column;gap:10px;background:var(--bg);}
 #msgs::-webkit-scrollbar{width:2px;}
 #msgs::-webkit-scrollbar-thumb{background:var(--border2);}
-
 .welcome{text-align:center;padding:20px 14px;margin:auto;}
 .w-logo{width:68px;height:68px;background:#fff;border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:34px;margin:0 auto 14px;animation:glow 3s infinite;}
 .welcome h3{font-size:19px;font-weight:700;color:#fff;margin-bottom:6px;}
@@ -92,7 +97,6 @@ body{font-family:'Inter','Noto Sans Devanagari',sans-serif;background:var(--bg);
 .qgrid{display:grid;grid-template-columns:1fr 1fr;gap:7px;max-width:320px;margin:0 auto;}
 .qbtn{background:var(--card);border:1px solid var(--border2);border-radius:12px;padding:11px 9px;font-size:12px;color:var(--text2);cursor:pointer;font-weight:600;text-align:left;transition:all .15s;}
 .qbtn:active{background:var(--bg3);border-color:#fff;color:#fff;}
-
 .msg-row{display:flex;gap:7px;align-items:flex-end;animation:fadeUp .25s ease;}
 .msg-row.user{flex-direction:row-reverse;}
 .av{width:27px;height:27px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:13px;border:1px solid var(--border2);}
@@ -101,34 +105,73 @@ body{font-family:'Inter','Noto Sans Devanagari',sans-serif;background:var(--bg);
 .bubble{max-width:80%;padding:9px 13px;border-radius:16px;font-size:14px;line-height:1.7;word-break:break-word;white-space:pre-wrap;}
 .bubble.ai{background:var(--card);color:var(--text);border-radius:4px 16px 16px 16px;border:1px solid var(--border);}
 .bubble.user{background:#fff;color:#000;border-radius:16px 4px 16px 16px;}
-.bubble img{max-width:100%;border-radius:10px;margin-top:6px;display:block;}
-
-/* Voice recording animation */
-@keyframes voicePulse{0%,100%{transform:scale(1);background:#ef4444}50%{transform:scale(1.2);background:#dc2626}}
-#mic-btn.recording{animation:voicePulse .8s infinite;}
-
-/* Typing */
 .typing-row{display:flex;gap:7px;align-items:flex-end;}
 .typing-bub{background:var(--card);border:1px solid var(--border);border-radius:4px 16px 16px 16px;padding:11px 14px;}
 .dots{display:flex;gap:4px;align-items:center;}
 .dot{width:6px;height:6px;border-radius:50%;background:var(--text3);animation:bounce 1.2s infinite ease-in-out;}
 .dot:nth-child(2){animation-delay:.2s;}
 .dot:nth-child(3){animation-delay:.4s;}
-
-/* Input */
 #inp-area{background:var(--bg2);border-top:1px solid var(--border);padding:8px 10px 12px;flex-shrink:0;}
 #inp-row{display:flex;gap:6px;align-items:flex-end;}
 #ta{flex:1;border:1px solid var(--border2);border-radius:12px;padding:10px 12px;font-size:14px;resize:none;max-height:100px;line-height:1.55;font-family:'Inter','Noto Sans Devanagari',sans-serif;background:var(--bg3);color:#fff;transition:border-color .2s;}
 #ta:focus{border-color:#fff;outline:none;}
 #ta::placeholder{color:var(--text3);}
-#mic-btn{width:42px;height:42px;min-width:42px;background:var(--bg3);color:#fff;border:1px solid var(--border2);border-radius:11px;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s;flex-shrink:0;}
-#sbtn{width:42px;height:42px;min-width:42px;background:#fff;color:#000;border:none;border-radius:11px;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-weight:700;transition:all .15s;flex-shrink:0;}
-#sbtn:active,#mic-btn:active{transform:scale(.9);}
-#st{text-align:center;font-size:10px;color:var(--text3);padding:5px 0 0;letter-spacing:.3px;}
+#sbtn{width:42px;height:42px;min-width:42px;background:#fff;color:#000;border:none;border-radius:11px;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;}
+#sbtn:active{transform:scale(.9);}
+#st{text-align:center;font-size:10px;color:var(--text3);padding:5px 0 0;}
 
-/* Image loading */
-.img-loading{display:flex;align-items:center;gap:8px;color:var(--text2);font-size:13px;}
-.img-spinner{width:16px;height:16px;border:2px solid var(--border2);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite;}
+/* PHOTO TAB */
+#photo-tab{display:none;flex-direction:column;flex:1;overflow:hidden;background:var(--bg);}
+.photo-header{padding:16px;border-bottom:1px solid var(--border);background:var(--bg2);}
+.photo-header h3{font-size:15px;font-weight:700;color:#fff;margin-bottom:4px;}
+.photo-header p{font-size:11px;color:var(--text3);}
+.photo-body{flex:1;overflow-y:auto;padding:14px;}
+.photo-body::-webkit-scrollbar{width:2px;}
+
+/* Style buttons */
+.style-section{margin-bottom:16px;}
+.style-label{font-size:10px;font-weight:700;color:var(--text3);letter-spacing:.8px;text-transform:uppercase;margin-bottom:8px;display:block;}
+.style-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;}
+.style-btn{padding:8px 6px;border-radius:9px;border:1px solid var(--border2);background:var(--bg3);color:var(--text2);font-size:11px;font-weight:600;cursor:pointer;text-align:center;transition:all .15s;}
+.style-btn.active{background:#fff;color:#000;border-color:#fff;}
+.style-btn:active{transform:scale(.95);}
+
+/* Prompt input */
+.photo-inp-area{padding:14px;border-top:1px solid var(--border);background:var(--bg2);flex-shrink:0;}
+.photo-inp-wrap{display:flex;gap:8px;align-items:flex-end;margin-bottom:8px;}
+#photo-prompt{flex:1;border:1px solid var(--border2);border-radius:12px;padding:10px 12px;font-size:14px;resize:none;max-height:80px;line-height:1.5;font-family:'Inter','Noto Sans Devanagari',sans-serif;background:var(--bg3);color:#fff;}
+#photo-prompt:focus{border-color:#fff;outline:none;}
+#photo-prompt::placeholder{color:var(--text3);}
+#gen-btn{padding:10px 18px;background:#fff;color:#000;border:none;border-radius:11px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0;}
+#gen-btn:active{transform:scale(.95);}
+#gen-btn:disabled{background:var(--bg3);color:var(--text3);cursor:default;}
+
+/* Quick prompts */
+.quick-prompts{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;}
+.quick-prompts::-webkit-scrollbar{display:none;}
+.qp{padding:6px 12px;border-radius:20px;border:1px solid var(--border2);background:var(--bg3);color:var(--text2);font-size:11px;font-weight:500;cursor:pointer;white-space:nowrap;flex-shrink:0;}
+.qp:active{background:var(--border2);}
+
+/* Generated images grid */
+#img-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px;}
+.img-card{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;position:relative;}
+.img-card img{width:100%;aspect-ratio:1;object-fit:cover;display:block;}
+.img-card .img-info{padding:8px 10px;}
+.img-card .img-prompt{font-size:11px;color:var(--text2);line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.img-card .img-actions{display:flex;gap:6px;margin-top:6px;}
+.img-action{flex:1;padding:5px;border-radius:7px;border:1px solid var(--border2);background:var(--bg3);color:var(--text2);font-size:11px;cursor:pointer;text-align:center;}
+
+/* Loading skeleton */
+.img-skeleton{width:100%;aspect-ratio:1;background:linear-gradient(90deg,var(--bg3) 25%,var(--border2) 50%,var(--bg3) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:0;}
+.img-loading-card{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;}
+.img-loading-info{padding:10px;display:flex;align-items:center;gap:8px;}
+.img-spinner{width:14px;height:14px;border:2px solid var(--border2);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite;flex-shrink:0;}
+.img-loading-text{font-size:12px;color:var(--text2);}
+
+/* Empty state */
+.photo-empty{text-align:center;padding:40px 20px;color:var(--text3);}
+.photo-empty .big{font-size:48px;margin-bottom:12px;}
+.photo-empty p{font-size:13px;line-height:1.7;}
 </style>
 </head>
 <body>
@@ -138,34 +181,29 @@ body{font-family:'Inter','Noto Sans Devanagari',sans-serif;background:var(--bg);
 <div class="setup-card">
   <div class="setup-logo">🌀</div>
   <h2>G PAT AI</h2>
-  <div class="sub">AI Companion • Voice • Photos</div>
+  <div class="sub">AI Companion • Chat • Photos</div>
   <div class="badge-row">
     <div class="badge green">✅ FREE</div>
-    <div class="badge">🎤 Voice</div>
-    <div class="badge">🎨 Photos</div>
+    <div class="badge">🎨 Photo Generator</div>
     <div class="badge">🧮 Math</div>
   </div>
-
-  <label class="inp-label">भाषा चुनो / Choose Language</label>
+  <label class="inp-label">भाषा / Language</label>
   <div class="lang-sel">
     <button class="lang-btn active" id="lb-hi" onclick="setLang('hi')">🇮🇳 हिंदी</button>
     <button class="lang-btn" id="lb-en" onclick="setLang('en')">🇬🇧 English</button>
     <button class="lang-btn" id="lb-mix" onclick="setLang('mix')">🔀 Mix</button>
   </div>
-
   <label class="inp-label">नाम / Name</label>
   <input class="inp-field" type="text" id="nInp" placeholder="Swikrit..."/>
-
   <div class="steps-box">
     <div class="steps-title">🔑 Free Groq API Key</div>
     <div class="step-r"><div class="sn">1</div><div><a href="https://console.groq.com" target="_blank">console.groq.com</a> → Google Login</div></div>
     <div class="step-r"><div class="sn">2</div><div>API Keys → Create Key → Copy (gsk_...)</div></div>
   </div>
-
   <label class="inp-label">Groq API Key</label>
   <input class="inp-field" type="password" id="kInp" placeholder="gsk_..."/>
   <button class="go-btn" onclick="doStart()">→ शुरू करें</button>
-  <div class="note">🔒 Key सिर्फ आपके phone में • किसी को share न करें</div>
+  <div class="note">🔒 Key सिर्फ आपके phone में रहेगी</div>
 </div>
 </div>
 
@@ -182,11 +220,6 @@ body{font-family:'Inter','Noto Sans Devanagari',sans-serif;background:var(--bg);
         <button class="ls-btn" id="ls-en" onclick="switchLang('en')">🇬🇧 EN</button>
         <button class="ls-btn" id="ls-mix" onclick="switchLang('mix')">🔀</button>
       </div>
-    </div>
-    <div class="sm-div"></div>
-    <div class="sm-sec">Features</div>
-    <div class="sm-item" onclick="toggleVoice()">
-      <span class="ic">🔊</span><span class="lbl" id="voice-lbl">Voice Reply: ON</span>
     </div>
     <div class="sm-div"></div>
     <div class="sm-sec">Chat</div>
@@ -213,46 +246,104 @@ body{font-family:'Inter','Noto Sans Devanagari',sans-serif;background:var(--bg);
     <div class="online-dot"></div>
     <div class="hright">
       <span id="lang-badge">HI</span>
-      <button class="hbtn" onclick="newChat()">✏️</button>
       <button class="hbtn" onclick="openSet()">⚙️</button>
     </div>
   </div>
 
-  <div id="msgs">
-    <div class="welcome" id="wel">
-      <div class="w-logo">🌀</div>
-      <h3 id="wt">नमस्ते! मैं G PAT AI हूं</h3>
-      <p id="wp">बोलकर या लिखकर बात करो • Photos बनाओ • Math solve करो</p>
-      <div class="qgrid">
-        <button class="qbtn" onclick="go('Mujhe stress ho raha hai')">😔 Stress</button>
-        <button class="qbtn" onclick="go('Career advice chahiye')">💼 Career</button>
-        <button class="qbtn" onclick="go('Ek sundar photo banao sunset ki')">🎨 Photo</button>
-        <button class="qbtn" onclick="go('25 × 48 kitna hoga')">🧮 Math</button>
+  <!-- TABS -->
+  <div id="tabs">
+    <div class="tab active" id="tab-chat" onclick="switchTab('chat')"><span>💬</span>Chat</div>
+    <div class="tab" id="tab-photo" onclick="switchTab('photo')"><span>🎨</span>Photos</div>
+  </div>
+
+  <!-- CHAT TAB -->
+  <div id="chat-tab">
+    <div id="msgs">
+      <div class="welcome" id="wel">
+        <div class="w-logo">🌀</div>
+        <h3 id="wt">नमस्ते! मैं G PAT AI हूं</h3>
+        <p id="wp">आपका AI दोस्त — बात करो, सवाल पूछो!</p>
+        <div class="qgrid">
+          <button class="qbtn" onclick="go('Mujhe stress ho raha hai')">😔 Stress</button>
+          <button class="qbtn" onclick="go('Career advice chahiye')">💼 Career</button>
+          <button class="qbtn" onclick="go('25 × 48 solve karo')">🧮 Math</button>
+          <button class="qbtn" onclick="go('Bas baat karni hai')">💬 Baat</button>
+        </div>
       </div>
+    </div>
+    <div id="inp-area">
+      <div id="inp-row">
+        <textarea id="ta" rows="1" placeholder="यहाँ लिखो..."></textarea>
+        <button id="sbtn" onclick="go()">➤</button>
+      </div>
+      <div id="st">● Connected • G PAT AI • FREE</div>
     </div>
   </div>
 
-  <div id="inp-area">
-    <div id="inp-row">
-      <textarea id="ta" rows="1" placeholder="लिखो या 🎤 दबाकर बोलो..."></textarea>
-      <button id="mic-btn" onclick="toggleMic()">🎤</button>
-      <button id="sbtn" onclick="go()">➤</button>
+  <!-- PHOTO TAB -->
+  <div id="photo-tab">
+    <div class="photo-body" id="photo-body">
+      <div class="photo-empty" id="photo-empty">
+        <div class="big">🎨</div>
+        <p>नीचे लिखो कि कैसी photo चाहिए<br/>और AI बना देगा! ✨</p>
+      </div>
+      <div id="img-grid"></div>
     </div>
-    <div id="st">● Connected • Voice + Photos • FREE</div>
+
+    <div class="photo-inp-area">
+      <!-- Style selector -->
+      <div class="style-section">
+        <span class="style-label">Style चुनो</span>
+        <div class="style-grid">
+          <button class="style-btn active" id="sty-realistic" onclick="setStyle('realistic')">📷 Real</button>
+          <button class="style-btn" id="sty-anime" onclick="setStyle('anime')">🎌 Anime</button>
+          <button class="style-btn" id="sty-art" onclick="setStyle('art')">🖼️ Art</button>
+          <button class="style-btn" id="sty-cartoon" onclick="setStyle('cartoon')">🎨 Cartoon</button>
+          <button class="style-btn" id="sty-3d" onclick="setStyle('3d')">💎 3D</button>
+          <button class="style-btn" id="sty-painting" onclick="setStyle('painting')">🎭 Paint</button>
+        </div>
+      </div>
+
+      <!-- Quick prompts -->
+      <div class="quick-prompts" style="margin-bottom:10px;">
+        <button class="qp" onclick="setPrompt('Sundar sunset beach par')">🌅 Sunset</button>
+        <button class="qp" onclick="setPrompt('Mountain landscape snow')">🏔️ Mountain</button>
+        <button class="qp" onclick="setPrompt('Beautiful flowers garden')">🌺 Flowers</button>
+        <button class="qp" onclick="setPrompt('City night lights')">🌃 City</button>
+        <button class="qp" onclick="setPrompt('Space galaxy stars')">🌌 Space</button>
+        <button class="qp" onclick="setPrompt('Forest waterfall nature')">🌿 Nature</button>
+        <button class="qp" onclick="setPrompt('Cute dog puppy')">🐕 Dog</button>
+        <button class="qp" onclick="setPrompt('Abstract colorful art')">🎨 Abstract</button>
+      </div>
+
+      <div class="photo-inp-wrap">
+        <textarea id="photo-prompt" rows="1" placeholder="Photo का description लिखो... (Hindi या English)"></textarea>
+        <button id="gen-btn" onclick="generatePhoto()">✨ बनाओ</button>
+      </div>
+    </div>
   </div>
 </div>
 
 <script>
-var hist=[],busy=false,key='',name='',lang='hi',voiceOn=true,isRecording=false,recognition=null;
+var hist=[],busy=false,key='',name='',lang='hi',currentStyle='realistic',imgCount=0;
+
+var STYLES={
+  realistic:'photorealistic, ultra detailed, 8k resolution, professional photography',
+  anime:'anime style, manga art, vibrant colors, Studio Ghibli inspired',
+  art:'digital art, artistic, highly detailed, concept art',
+  cartoon:'cartoon style, colorful, fun, animated',
+  '3d':'3D render, CGI, octane render, volumetric lighting, ultra realistic',
+  painting:'oil painting, artistic brushstrokes, classical art style'
+};
 
 function getLangInstruction(){
-  if(lang==='hi') return "STRICT RULE: Always respond ONLY in pure Hindi (Devanagari). Never use English. सिर्फ हिंदी में जवाब दो।";
-  if(lang==='en') return "STRICT RULE: Always respond ONLY in English. Never use Hindi.";
+  if(lang==='hi') return "STRICT: Always respond ONLY in Hindi (Devanagari). Never use English.";
+  if(lang==='en') return "STRICT: Always respond ONLY in English. Never use Hindi.";
   return "Respond in the same language as the user.";
 }
 
 function sys(){
-  return "You are G PAT AI - a warm, empathetic AI friend.\nUser name: "+name+".\n\n"+getLangInstruction()+"\n\nRULES:\n- Use user's name naturally\n- Acknowledge emotions first\n- Be warm like a best friend\n- For math: solve step by step\n- For career: give practical advice\n- If user asks to 'make/generate/create a photo/image', respond with: 'GENERATE_IMAGE: [detailed english description of the image]'\n- Keep responses concise";
+  return "You are G PAT AI - warm, empathetic AI friend. User: "+name+".\n"+getLangInstruction()+"\nUse name naturally. Acknowledge emotions first. Help with math step by step, career advice, emotional support. Keep responses concise.";
 }
 
 function setLang(l){
@@ -261,99 +352,32 @@ function setLang(l){
 }
 
 function switchLang(l){
-  lang=l;
-  localStorage.setItem('glang',l);
+  lang=l;localStorage.setItem('glang',l);
   ['hi','en','mix'].forEach(function(x){document.getElementById('ls-'+x).className='ls-btn'+(l===x?' active':'');});
   document.getElementById('lang-badge').textContent=l.toUpperCase();
-  var msg=l==='hi'?'ठीक है! अब सिर्फ हिंदी में बात करूंगा।':l==='en'?'Got it! English only now.':'Okay! I will match your language.';
-  addMsg('assistant',msg);
-  if(voiceOn) speak(msg);
+  addMsg('assistant',l==='hi'?'ठीक है! अब सिर्फ हिंदी में।':l==='en'?'English only now!':'Language matched!');
 }
 
-function toggleVoice(){
-  voiceOn=!voiceOn;
-  document.getElementById('voice-lbl').textContent='Voice Reply: '+(voiceOn?'ON':'OFF');
+function setStyle(s){
+  currentStyle=s;
+  document.querySelectorAll('.style-btn').forEach(function(b){b.classList.remove('active');});
+  document.getElementById('sty-'+s).classList.add('active');
 }
 
-// Voice Input
-function toggleMic(){
-  if(isRecording){stopMic();}
-  else{startMic();}
+function setPrompt(txt){
+  document.getElementById('photo-prompt').value=txt;
 }
 
-function startMic(){
-  var SpeechRecognition=window.SpeechRecognition||window.webkitSpeechRecognition;
-  if(!SpeechRecognition){alert('आपका browser voice support नहीं करता। Chrome use करें।');return;}
-  recognition=new SpeechRecognition();
-  recognition.lang=lang==='en'?'en-US':'hi-IN';
-  recognition.continuous=false;
-  recognition.interimResults=false;
-  recognition.onstart=function(){
-    isRecording=true;
-    document.getElementById('mic-btn').classList.add('recording');
-    document.getElementById('mic-btn').textContent='⏹️';
-    setStatus('🎤 सुन रहा हूं... बोलो!','#ef4444');
-  };
-  recognition.onresult=function(e){
-    var text=e.results[0][0].transcript;
-    document.getElementById('ta').value=text;
-    stopMic();
-    setTimeout(function(){go();},300);
-  };
-  recognition.onerror=function(){stopMic();setStatus('❌ Mic error','#f87171');};
-  recognition.onend=function(){stopMic();};
-  recognition.start();
-}
-
-function stopMic(){
-  isRecording=false;
-  if(recognition){try{recognition.stop();}catch(e){}}
-  document.getElementById('mic-btn').classList.remove('recording');
-  document.getElementById('mic-btn').textContent='🎤';
-}
-
-// Voice Output
-function speak(text){
-  if(!voiceOn)return;
-  window.speechSynthesis.cancel();
-  var clean=text.replace(/[*_#`]/g,'').replace(/GENERATE_IMAGE:.*/g,'').trim();
-  if(!clean)return;
-  var u=new SpeechSynthesisUtterance(clean);
-  u.lang=lang==='en'?'en-US':'hi-IN';
-  u.rate=1;u.pitch=1;u.volume=1;
-  window.speechSynthesis.speak(u);
-}
-
-// Photo Generation using Pollinations.ai (FREE, no API key)
-async function generateImage(prompt){
-  var msgs=document.getElementById('msgs');
-  var w=document.getElementById('wel');if(w)w.remove();
-
-  var row=document.createElement('div');
-  row.className='msg-row';
-  row.innerHTML='<div class="av ai">🌀</div><div class="bubble ai"><div class="img-loading"><div class="img-spinner"></div><span>Photo बना रहा हूं... ⏳</span></div></div>';
-  var typing=document.getElementById('typ');
-  msgs.insertBefore(row,typing||null);
-  scrollDown();
-
-  var encoded=encodeURIComponent(prompt+', high quality, detailed, beautiful');
-  var url='https://image.pollinations.ai/prompt/'+encoded+'?width=512&height=512&nologo=true&seed='+Math.floor(Math.random()*9999);
-
-  var img=new Image();
-  img.onload=function(){
-    row.querySelector('.bubble').innerHTML='<b>🎨 Photo तैयार है!</b><br/><img src="'+url+'" style="max-width:100%;border-radius:10px;margin-top:8px;border:1px solid #333;"/>';
-    scrollDown();
-    if(voiceOn) speak(lang==='en'?'Your photo is ready!':'आपकी photo तैयार है!');
-  };
-  img.onerror=function(){
-    row.querySelector('.bubble').innerHTML='❌ Photo नहीं बन पाई। दोबारा try करो।';
-  };
-  img.src=url;
+function switchTab(t){
+  document.getElementById('chat-tab').style.display=t==='chat'?'flex':'none';
+  document.getElementById('photo-tab').style.display=t==='photo'?'flex':'none';
+  document.getElementById('tab-chat').className='tab'+(t==='chat'?' active':'');
+  document.getElementById('tab-photo').className='tab'+(t==='photo'?' active':'');
 }
 
 window.onload=function(){
-  var k=localStorage.getItem('gk'),n=localStorage.getItem('gn'),l=localStorage.getItem('glang')||'hi',v=localStorage.getItem('gvoice');
-  lang=l;voiceOn=v!=='off';
+  var k=localStorage.getItem('gk'),n=localStorage.getItem('gn'),l=localStorage.getItem('glang')||'hi';
+  lang=l;
   if(k&&n){key=k;name=n;launch();}
 };
 
@@ -373,26 +397,24 @@ function launch(){
   document.getElementById('hsub').textContent='Hello, '+name+'!';
   document.getElementById('sm-name').textContent=name+' • G PAT AI';
   document.getElementById('lang-badge').textContent=lang.toUpperCase();
-  document.getElementById('ls-'+lang).className='ls-btn active';
-  document.getElementById('wt').textContent='नमस्ते '+name+'! मैं G PAT AI हूं 🌀';
-  document.getElementById('voice-lbl').textContent='Voice Reply: '+(voiceOn?'ON':'OFF');
+  document.getElementById('ls-'+(lang||'hi')).className='ls-btn active';
+  document.getElementById('wt').textContent='नमस्ते '+name+'! 🌀';
+  document.getElementById('wp').textContent=name+', क्या बात करनी है? Chat करो या Photos tab में जाकर photo बनाओ!';
+  switchTab('chat');
 }
 
 function openSet(){document.getElementById('set-menu').classList.add('on');document.getElementById('set-overlay').classList.add('on');}
 function closeSet(){document.getElementById('set-menu').classList.remove('on');document.getElementById('set-overlay').classList.remove('on');}
-
-function changeKey(){
-  closeSet();
-  var k=prompt('New Groq API Key (gsk_...):');
-  if(k&&k.trim()){key=k.trim();localStorage.setItem('gk',key);alert('✅ Key changed!');}
-}
-function logout(){
-  if(confirm('Logout?')){localStorage.removeItem('gk');localStorage.removeItem('gn');location.reload();}
-}
+function changeKey(){closeSet();var k=prompt('New Groq API Key (gsk_...):');if(k&&k.trim()){key=k.trim();localStorage.setItem('gk',key);alert('✅ Done!');}}
+function logout(){if(confirm('Logout?')){localStorage.removeItem('gk');localStorage.removeItem('gn');location.reload();}}
 
 var ta=document.getElementById('ta');
 ta.oninput=function(){this.style.height='auto';this.style.height=Math.min(this.scrollHeight,100)+'px';};
 ta.onkeydown=function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();go();}};
+
+var pp=document.getElementById('photo-prompt');
+pp.oninput=function(){this.style.height='auto';this.style.height=Math.min(this.scrollHeight,80)+'px';};
+pp.onkeydown=function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();generatePhoto();}};
 
 function scrollDown(){var m=document.getElementById('msgs');m.scrollTop=m.scrollHeight;}
 
@@ -407,12 +429,7 @@ function addMsg(role,text){
 
 function showTyping(s){
   var old=document.getElementById('typ');if(old)old.remove();
-  if(s){
-    var msgs=document.getElementById('msgs');
-    var d=document.createElement('div');d.id='typ';d.className='typing-row';
-    d.innerHTML='<div class="av ai">🌀</div><div class="typing-bub"><div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>';
-    msgs.appendChild(d);scrollDown();
-  }
+  if(s){var msgs=document.getElementById('msgs');var d=document.createElement('div');d.id='typ';d.className='typing-row';d.innerHTML='<div class="av ai">🌀</div><div class="typing-bub"><div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>';msgs.appendChild(d);scrollDown();}
 }
 
 function setStatus(t,c){var s=document.getElementById('st');s.textContent=t;s.style.color=c||'#555';}
@@ -422,48 +439,89 @@ async function go(txt){
   var text=txt!==undefined?txt:ta.value.trim();
   if(!text)return;
   ta.value='';ta.style.height='auto';
-  busy=true;
-  setStatus('● Thinking...','#888');
-  addMsg('user',text);
-  hist.push({role:'user',content:text});
-  showTyping(true);
+  busy=true;setStatus('● Thinking...','#888');
+  addMsg('user',text);hist.push({role:'user',content:text});showTyping(true);
   try{
-    var res=await fetch('https://api.groq.com/openai/v1/chat/completions',{
-      method:'POST',
-      headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},
-      body:JSON.stringify({model:'llama-3.1-8b-instant',messages:[{role:'system',content:sys()}].concat(hist),max_tokens:600,temperature:0.8})
-    });
+    var res=await fetch('https://api.groq.com/openai/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},body:JSON.stringify({model:'llama-3.1-8b-instant',messages:[{role:'system',content:sys()}].concat(hist),max_tokens:600,temperature:0.8})});
     var data=await res.json();
     if(data.choices&&data.choices[0]&&data.choices[0].message){
       var reply=data.choices[0].message.content;
       hist.push({role:'assistant',content:reply});
-      showTyping(false);
-
-      // Check if image generation requested
-      if(reply.indexOf('GENERATE_IMAGE:')!==-1){
-        var imgPrompt=reply.split('GENERATE_IMAGE:')[1].trim();
-        var textPart=reply.split('GENERATE_IMAGE:')[0].trim();
-        if(textPart){addMsg('assistant',textPart);if(voiceOn)speak(textPart);}
-        generateImage(imgPrompt);
-      } else {
-        addMsg('assistant',reply);
-        if(voiceOn)speak(reply);
-      }
-      setStatus('● Connected • Voice + Photos • FREE','#4ade80');
+      showTyping(false);addMsg('assistant',reply);
+      setStatus('● Connected • G PAT AI • FREE','#4ade80');
     } else throw new Error(data.error?data.error.message:'Error');
-  }catch(e){
-    showTyping(false);
-    setStatus('● Error','#f87171');
-    addMsg('assistant','⚙️ Settings > API Key Change करो। Error: '+e.message);
-  }
+  }catch(e){showTyping(false);setStatus('● Error','#f87171');addMsg('assistant','⚙️ API Key change करो। Error: '+e.message);}
   busy=false;
+}
+
+function generatePhoto(){
+  var rawPrompt=document.getElementById('photo-prompt').value.trim();
+  if(!rawPrompt){alert('Photo का description लिखो!');return;}
+
+  // Remove empty state
+  var empty=document.getElementById('photo-empty');
+  if(empty)empty.remove();
+
+  var grid=document.getElementById('img-grid');
+  imgCount++;
+  var cardId='img-'+imgCount;
+
+  // Add loading card
+  var loadCard=document.createElement('div');
+  loadCard.className='img-loading-card';
+  loadCard.id=cardId;
+  loadCard.innerHTML='<div class="img-skeleton"></div><div class="img-loading-info"><div class="img-spinner"></div><div class="img-loading-text">बना रहा हूं...</div></div>';
+  grid.insertBefore(loadCard,grid.firstChild);
+
+  // Scroll to top of photo body
+  document.getElementById('photo-body').scrollTop=0;
+
+  // Build prompt with style
+  var styleDesc=STYLES[currentStyle]||STYLES.realistic;
+  var fullPrompt=rawPrompt+', '+styleDesc;
+  var encoded=encodeURIComponent(fullPrompt);
+  var seed=Math.floor(Math.random()*99999);
+  var url='https://image.pollinations.ai/prompt/'+encoded+'?width=512&height=512&nologo=true&seed='+seed;
+
+  document.getElementById('photo-prompt').value='';
+  document.getElementById('photo-prompt').style.height='auto';
+
+  var img=new Image();
+  img.onload=function(){
+    var card=document.getElementById(cardId);
+    if(card){
+      card.className='img-card';
+      card.innerHTML=
+        '<img src="'+url+'" alt="'+rawPrompt.replace(/"/g,'')+'"/>'+
+        '<div class="img-info">'+
+          '<div class="img-prompt">'+rawPrompt+'</div>'+
+          '<div class="img-actions">'+
+            '<button class="img-action" onclick="downloadImg(\''+url+'\','+imgCount+')">⬇️ Save</button>'+
+            '<button class="img-action" onclick="shareImg(\''+url+'\')">📤 Share</button>'+
+          '</div>'+
+        '</div>';
+    }
+  };
+  img.onerror=function(){
+    var card=document.getElementById(cardId);
+    if(card){card.className='img-card';card.innerHTML='<div style="padding:16px;color:#f87171;font-size:13px;text-align:center;">❌ Error<br/>दोबारा try करो</div>';}
+  };
+  img.src=url;
+}
+
+function downloadImg(url,id){
+  var a=document.createElement('a');a.href=url;a.download='gpat-ai-photo-'+id+'.jpg';a.target='_blank';a.click();
+}
+
+function shareImg(url){
+  if(navigator.share){navigator.share({title:'G PAT AI Photo',url:url});}
+  else{navigator.clipboard.writeText(url).then(function(){alert('Link copy हो गया!');});}
 }
 
 function newChat(){
   hist=[];busy=false;
-  window.speechSynthesis.cancel();
   setStatus('● Ready • G PAT AI • FREE','#555');
-  document.getElementById('msgs').innerHTML='<div class="welcome" id="wel"><div class="w-logo">🌀</div><h3>नमस्ते '+name+'! 😊</h3><p>बोलकर या लिखकर बात करो • Photos बनाओ</p><div class="qgrid"><button class="qbtn" onclick="go(\'Mujhe stress ho raha hai\')">😔 Stress</button><button class="qbtn" onclick="go(\'Career advice chahiye\')">💼 Career</button><button class="qbtn" onclick="go(\'Ek sundar sunset photo banao\')">🎨 Photo</button><button class="qbtn" onclick="go(\'25 × 48 solve karo\')">🧮 Math</button></div></div>';
+  document.getElementById('msgs').innerHTML='<div class="welcome" id="wel"><div class="w-logo">🌀</div><h3>नमस्ते '+name+'! 😊</h3><p>क्या बात करनी है?</p><div class="qgrid"><button class="qbtn" onclick="go(\'Mujhe stress ho raha hai\')">😔 Stress</button><button class="qbtn" onclick="go(\'Career advice chahiye\')">💼 Career</button><button class="qbtn" onclick="go(\'25 × 48 solve karo\')">🧮 Math</button><button class="qbtn" onclick="go(\'Bas baat karni hai\')">💬 Baat</button></div></div>';
 }
 </script>
 </body>
