@@ -2,61 +2,78 @@
 <html>
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>G PAT AI</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:sans-serif;background:#f5f5f5;height:100vh;display:flex;flex-direction:column;}
+body{font-family:sans-serif;background:#fff;height:100vh;display:flex;flex-direction:column;overflow:hidden;}
+@keyframes bounce{0%,80%,100%{transform:translateY(0);opacity:.35}40%{transform:translateY(-5px);opacity:1}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
 /* SETUP */
 #setup{display:flex;align-items:center;justify-content:center;height:100vh;padding:16px;background:#f0f0ff;}
 .card{background:#fff;border-radius:16px;padding:24px;width:100%;max-width:380px;box-shadow:0 4px 20px rgba(0,0,0,.1);text-align:center;}
 .card h1{font-size:40px;margin-bottom:8px;}
 .card h2{font-size:18px;font-weight:700;margin-bottom:16px;color:#111;}
-.card input{width:100%;padding:12px;border:2px solid #ddd;border-radius:10px;font-size:15px;margin-bottom:10px;display:block;}
+.card input{width:100%;padding:12px;border:2px solid #ddd;border-radius:10px;font-size:15px;margin-bottom:10px;display:block;font-family:sans-serif;}
 .card input:focus{border-color:#6366f1;outline:none;}
-.sbtn{width:100%;padding:14px;background:#6366f1;color:#fff;border:none;border-radius:10px;font-size:16px;font-weight:700;cursor:pointer;}
-.note{font-size:11px;color:#999;margin-top:10px;line-height:1.5;}
-.note a{color:#6366f1;}
 .steps{background:#f8f8ff;border-radius:10px;padding:12px;margin-bottom:12px;text-align:left;font-size:13px;color:#555;line-height:1.8;}
+.steps a{color:#6366f1;font-weight:600;}
+.go-btn{width:100%;padding:14px;background:#6366f1;color:#fff;border:none;border-radius:10px;font-size:16px;font-weight:700;cursor:pointer;}
+.note{font-size:11px;color:#999;margin-top:10px;line-height:1.5;}
 
 /* APP */
-#app{display:none;flex-direction:column;height:100vh;}
+#app{display:none;flex-direction:column;height:100vh;overflow:hidden;}
 
 /* Header */
-#hdr{background:#6366f1;color:#fff;padding:12px 16px;display:flex;align-items:center;gap:10px;flex-shrink:0;}
-#hdr .logo{font-size:24px;}
-#hdr .info .name{font-weight:700;font-size:16px;}
-#hdr .info .sub{font-size:11px;opacity:.8;}
-#hdr button{margin-left:auto;background:rgba(255,255,255,.2);color:#fff;border:none;padding:6px 12px;border-radius:8px;font-size:13px;cursor:pointer;}
+#hdr{background:#6366f1;color:#fff;padding:11px 14px;display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.hlogo{font-size:22px;}
+.hinfo .hname{font-weight:700;font-size:15px;}
+.hinfo .hsub{font-size:10px;opacity:.8;}
+.hright{margin-left:auto;display:flex;gap:8px;}
+.hbtn{background:rgba(255,255,255,.2);color:#fff;border:none;padding:7px 12px;border-radius:8px;font-size:13px;cursor:pointer;white-space:nowrap;}
+
+/* Settings Menu */
+#settings-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.4);z-index:50;}
+#settings-overlay.on{display:block;}
+#settings-menu{display:none;position:fixed;top:0;right:0;width:220px;height:100%;background:#fff;z-index:51;flex-direction:column;box-shadow:-4px 0 20px rgba(0,0,0,.15);}
+#settings-menu.on{display:flex;}
+.sm-header{background:#6366f1;color:#fff;padding:20px 16px;flex-shrink:0;}
+.sm-header h3{font-size:16px;font-weight:700;margin-bottom:2px;}
+.sm-header p{font-size:11px;opacity:.8;}
+.sm-body{flex:1;padding:12px;}
+.sm-item{display:flex;align-items:center;gap:12px;padding:14px 12px;border-radius:10px;cursor:pointer;margin-bottom:4px;border:1px solid #f0f0f0;font-size:14px;color:#374151;font-weight:500;}
+.sm-item:active{background:#f0f4ff;}
+.sm-item .icon{font-size:20px;}
+.sm-item.danger{color:#ef4444;border-color:#fee2e2;}
+.sm-close{padding:12px 16px;border-top:1px solid #f0f0f0;flex-shrink:0;}
+.sm-close button{width:100%;padding:10px;border:1px solid #e5e7eb;background:#f9fafb;border-radius:8px;font-size:14px;cursor:pointer;color:#6b7280;}
 
 /* Messages */
-#msgs{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:10px;background:#f5f5f5;}
-
-.welcome{text-align:center;padding:20px 10px;}
-.welcome .big{font-size:48px;margin-bottom:10px;}
-.welcome h3{font-size:18px;font-weight:700;color:#111;margin-bottom:6px;}
-.welcome p{font-size:13px;color:#777;line-height:1.6;margin-bottom:16px;}
-.qgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+#msgs{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:8px;background:#f5f5f5;}
+.welcome{text-align:center;padding:20px 10px;margin:auto;}
+.welcome .big{font-size:52px;margin-bottom:12px;}
+.welcome h3{font-size:19px;font-weight:700;color:#111;margin-bottom:6px;}
+.welcome p{font-size:13px;color:#777;line-height:1.6;margin-bottom:18px;}
+.qgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;max-width:360px;margin:0 auto;}
 .qbtn{background:#fff;border:2px solid #e5e7eb;border-radius:12px;padding:10px;font-size:12px;color:#374151;cursor:pointer;font-weight:600;text-align:left;}
 
-.bubble{max-width:80%;padding:10px 13px;border-radius:16px;font-size:14px;line-height:1.6;word-break:break-word;white-space:pre-wrap;}
-.bubble.ai{background:#fff;color:#111;border-radius:4px 16px 16px 16px;box-shadow:0 1px 3px rgba(0,0,0,.08);align-self:flex-start;}
+.bubble{max-width:82%;padding:10px 13px;border-radius:16px;font-size:14px;line-height:1.65;word-break:break-word;white-space:pre-wrap;animation:fadeUp .3s ease;}
+.bubble.ai{background:#fff;color:#111;border-radius:4px 16px 16px 16px;box-shadow:0 1px 4px rgba(0,0,0,.08);align-self:flex-start;}
 .bubble.user{background:#6366f1;color:#fff;border-radius:16px 4px 16px 16px;align-self:flex-end;}
-
-.typing{background:#fff;border-radius:4px 16px 16px 16px;padding:12px 16px;align-self:flex-start;box-shadow:0 1px 3px rgba(0,0,0,.08);}
+.typing-div{background:#fff;border-radius:4px 16px 16px 16px;padding:12px 16px;align-self:flex-start;box-shadow:0 1px 4px rgba(0,0,0,.08);}
 .dots{display:flex;gap:4px;}
-.dot{width:7px;height:7px;border-radius:50%;background:#aaa;animation:blink 1.2s infinite;}
+.dot{width:7px;height:7px;border-radius:50%;background:#aaa;animation:bounce 1.2s infinite;}
 .dot:nth-child(2){animation-delay:.2s;}
 .dot:nth-child(3){animation-delay:.4s;}
-@keyframes blink{0%,80%,100%{opacity:.2;transform:scale(.8)}40%{opacity:1;transform:scale(1)}}
 
 /* Input */
 #inp{background:#fff;border-top:1px solid #eee;padding:10px 12px;display:flex;gap:8px;align-items:flex-end;flex-shrink:0;}
-#inp textarea{flex:1;border:2px solid #e5e7eb;border-radius:12px;padding:10px 12px;font-size:15px;resize:none;max-height:100px;line-height:1.5;font-family:sans-serif;}
-#inp textarea:focus{border-color:#6366f1;outline:none;}
-#send{width:48px;height:48px;min-width:48px;background:#6366f1;color:#fff;border:none;border-radius:12px;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 3px 10px rgba(99,102,241,.4);}
-#status{text-align:center;font-size:11px;color:#10b981;padding:4px 0;background:#fff;}
+#ta{flex:1;border:2px solid #e5e7eb;border-radius:12px;padding:10px 12px;font-size:15px;resize:none;max-height:100px;line-height:1.5;font-family:sans-serif;}
+#ta:focus{border-color:#6366f1;outline:none;}
+#sbtn{width:48px;height:48px;min-width:48px;background:#6366f1;color:#fff;border:none;border-radius:12px;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 10px rgba(99,102,241,.4);}
+#sbtn:active{transform:scale(.92);}
+#st{text-align:center;font-size:11px;color:#10b981;padding:5px;background:#fff;}
 </style>
 </head>
 <body>
@@ -67,192 +84,211 @@ body{font-family:sans-serif;background:#f5f5f5;height:100vh;display:flex;flex-di
   <h1>🌀</h1>
   <h2>G PAT AI</h2>
   <div class="steps">
-    📌 <b>API Key kaise len?</b><br>
+    📌 <b>Free API Key kaise len?</b><br>
     1. <a href="https://openrouter.ai" target="_blank">openrouter.ai</a> → Google se login<br>
     2. <a href="https://openrouter.ai/keys" target="_blank">openrouter.ai/keys</a> → Create Key → Copy<br>
     3. Niche paste karo
   </div>
-  <input type="text" id="nInp" placeholder="Aapka naam? (jaise: Rohit)"/>
+  <input type="text" id="nInp" placeholder="Aapka naam? (jaise: Swikrit)"/>
   <input type="password" id="kInp" placeholder="sk-or-v1-..."/>
-  <button class="sbtn" id="goBtn">🚀 Shuru Karen</button>
-  <div class="note">Key sirf aapke phone me rahegi. Kisi ko share mat karna.</div>
+  <button class="go-btn" onclick="doStart()">🚀 Shuru Karen</button>
+  <div class="note">Key sirf aapke phone me rahegi.</div>
 </div>
+</div>
+
+<!-- Settings overlay -->
+<div id="settings-overlay" onclick="closeSettings()"></div>
+<div id="settings-menu">
+  <div class="sm-header">
+    <h3>⚙️ Settings</h3>
+    <p id="sm-name">G PAT AI</p>
+  </div>
+  <div class="sm-body">
+    <div class="sm-item" onclick="newChat();closeSettings();">
+      <span class="icon">✏️</span> New Chat
+    </div>
+    <div class="sm-item" onclick="changeKey()">
+      <span class="icon">🔑</span> API Key Change
+    </div>
+    <div class="sm-item danger" onclick="logout()">
+      <span class="icon">🚪</span> Logout
+    </div>
+  </div>
+  <div class="sm-close">
+    <button onclick="closeSettings()">✕ Band Karo</button>
+  </div>
 </div>
 
 <!-- APP -->
 <div id="app">
   <div id="hdr">
-    <div class="logo">🌀</div>
-    <div class="info">
-      <div class="name">G PAT AI</div>
-      <div class="sub" id="hsub">Emotional Intelligence</div>
+    <div class="hlogo">🌀</div>
+    <div class="hinfo">
+      <div class="hname">G PAT AI</div>
+      <div class="hsub" id="hsub">Emotional Intelligence</div>
     </div>
-    <button onclick="newChat()">✏️ New</button>
+    <div class="hright">
+      <button class="hbtn" onclick="newChat()">✏️</button>
+      <button class="hbtn" onclick="openSettings()">⚙️</button>
+    </div>
   </div>
 
   <div id="msgs">
     <div class="welcome" id="wel">
       <div class="big">🌀</div>
       <h3 id="wt">Namaste! Main G PAT AI hun</h3>
-      <p id="wp">Aapki feelings samajhta hun aur har problem solve karne ki koshish karunga.</p>
+      <p id="wp">Aapki feelings samajhta hun aur har problem solve karunga.</p>
       <div class="qgrid">
-        <button class="qbtn" onclick="qs('Mujhe bahut stress ho raha hai, help karo')">😔 Stress ho raha hai</button>
-        <button class="qbtn" onclick="qs('Career ke baare mein advice chahiye')">💼 Career advice</button>
-        <button class="qbtn" onclick="qs('Bas baat karni hai, koi sun nahi')">💬 Baat karni hai</button>
-        <button class="qbtn" onclick="qs('Relationship mein problem hai')">❤️ Relationship</button>
+        <button class="qbtn" onclick="go('Mujhe bahut stress ho raha hai')">😔 Stress ho raha hai</button>
+        <button class="qbtn" onclick="go('Career advice chahiye')">💼 Career advice</button>
+        <button class="qbtn" onclick="go('Bas baat karni hai')">💬 Baat karni hai</button>
+        <button class="qbtn" onclick="go('Relationship mein problem hai')">❤️ Relationship</button>
       </div>
     </div>
   </div>
 
-  <div id="status">✅ Ready</div>
+  <div id="st">✅ Ready • G PAT AI • FREE</div>
 
   <div id="inp">
     <textarea id="ta" rows="1" placeholder="Yahan likho..."></textarea>
-    <button id="send" onclick="go()">➤</button>
+    <button id="sbtn" onclick="go()">➤</button>
   </div>
 </div>
 
 <script>
-var MODELS = [
-  'meta-llama/llama-3.2-3b-instruct:free',
-  'mistralai/mistral-7b-instruct:free',
-  'google/gemma-3-4b-it:free',
-  'qwen/qwen-2.5-7b-instruct:free'
-];
-var hist = [], busy = false, key = '', name = '', cm = 0;
+var MODELS=['meta-llama/llama-3.2-3b-instruct:free','mistralai/mistral-7b-instruct:free','google/gemma-3-4b-it:free','qwen/qwen-2.5-7b-instruct:free','microsoft/phi-3-mini-128k-instruct:free'];
+var hist=[],busy=false,key='',name='',cm=0;
 
-function sys() {
-  return "You are G PAT AI - a warm, empathetic AI friend. User name: " + name + ". Always use their name. Acknowledge feelings first. Respond in same language as user (Hindi/English/Hinglish). Be warm and caring.";
-}
+function sys(){return "You are G PAT AI - a warm, empathetic AI friend. User name: "+name+". Always use their name naturally. Acknowledge feelings first before solutions. Respond in same language as user (Hindi/English/Hinglish). Be warm, caring, conversational.";}
 
-// Load saved data
-window.onload = function() {
-  var k = localStorage.getItem('gk');
-  var n = localStorage.getItem('gn');
-  if (k && n) { key = k; name = n; launch(); }
+window.onload=function(){
+  var k=localStorage.getItem('gk');
+  var n=localStorage.getItem('gn');
+  if(k&&n){key=k;name=n;launch();}
 };
 
-// Start button
-document.getElementById('goBtn').onclick = function() {
-  var n = document.getElementById('nInp').value.trim();
-  var k = document.getElementById('kInp').value.trim();
-  if (!n) { alert('Naam daalo!'); return; }
-  if (!k) { alert('API Key daalo!'); return; }
-  name = n; key = k;
-  localStorage.setItem('gk', k);
-  localStorage.setItem('gn', n);
+function doStart(){
+  var n=document.getElementById('nInp').value.trim();
+  var k=document.getElementById('kInp').value.trim();
+  if(!n){alert('Naam daalo!');return;}
+  if(!k){alert('API Key daalo!');return;}
+  name=n;key=k;
+  localStorage.setItem('gk',k);
+  localStorage.setItem('gn',n);
   launch();
-};
-
-function launch() {
-  document.getElementById('setup').style.display = 'none';
-  document.getElementById('app').style.display = 'flex';
-  document.getElementById('hsub').textContent = 'Hello, ' + name + '! 👋';
-  document.getElementById('wt').textContent = 'Namaste ' + name + '! Main G PAT AI hun 🌀';
-  document.getElementById('wp').textContent = name + ', main aapki feelings samajhta hun aur poori koshish karunga har problem solve karne ki.';
 }
 
-// Textarea
-var ta = document.getElementById('ta');
-ta.oninput = function() {
-  this.style.height = 'auto';
-  this.style.height = Math.min(this.scrollHeight, 100) + 'px';
-};
-ta.onkeydown = function(e) {
-  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); go(); }
-};
+function launch(){
+  document.getElementById('setup').style.display='none';
+  document.getElementById('app').style.display='flex';
+  document.getElementById('hsub').textContent='Hello, '+name+'! 👋';
+  document.getElementById('wt').textContent='Namaste '+name+'! Main G PAT AI hun 🌀';
+  document.getElementById('wp').textContent=name+', main aapki feelings samajhta hun aur poori koshish karunga.';
+  document.getElementById('sm-name').textContent='Hello, '+name+'! 👋';
+}
 
-function qs(t) { go(t); }
+function openSettings(){
+  document.getElementById('settings-menu').classList.add('on');
+  document.getElementById('settings-overlay').classList.add('on');
+}
 
-function addMsg(role, text) {
-  var wel = document.getElementById('wel');
-  if (wel) wel.remove();
-  var msgs = document.getElementById('msgs');
-  var d = document.createElement('div');
-  d.className = 'bubble ' + (role === 'user' ? 'user' : 'ai');
-  d.textContent = text;
+function closeSettings(){
+  document.getElementById('settings-menu').classList.remove('on');
+  document.getElementById('settings-overlay').classList.remove('on');
+}
+
+function changeKey(){
+  closeSettings();
+  var newKey=prompt('Nai API Key paste karo:');
+  if(newKey&&newKey.trim()){
+    key=newKey.trim();
+    localStorage.setItem('gk',key);
+    cm=0;
+    setStatus('✅ Nai Key Save Ho Gayi!');
+    alert('✅ API Key change ho gayi, '+name+'!');
+  }
+}
+
+function logout(){
+  if(confirm('Logout karna chahte ho?')){
+    localStorage.removeItem('gk');
+    localStorage.removeItem('gn');
+    location.reload();
+  }
+}
+
+var ta=document.getElementById('ta');
+ta.oninput=function(){this.style.height='auto';this.style.height=Math.min(this.scrollHeight,100)+'px';};
+ta.onkeydown=function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();go();}};
+
+function scrollDown(){var m=document.getElementById('msgs');m.scrollTop=m.scrollHeight;}
+
+function addMsg(role,text){
+  var w=document.getElementById('wel');if(w)w.remove();
+  var msgs=document.getElementById('msgs');
+  var d=document.createElement('div');
+  d.className='bubble '+(role==='user'?'user':'ai');
+  d.textContent=text;
   msgs.appendChild(d);
-  msgs.scrollTop = msgs.scrollHeight;
+  scrollDown();
 }
 
-function showTyping(s) {
-  var old = document.getElementById('typ');
-  if (old) old.remove();
-  if (s) {
-    var msgs = document.getElementById('msgs');
-    var d = document.createElement('div');
-    d.id = 'typ';
-    d.className = 'typing';
-    d.innerHTML = '<div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>';
-    msgs.appendChild(d);
-    msgs.scrollTop = msgs.scrollHeight;
+function showTyping(s){
+  var old=document.getElementById('typ');if(old)old.remove();
+  if(s){
+    var msgs=document.getElementById('msgs');
+    var d=document.createElement('div');
+    d.id='typ';d.className='typing-div';
+    d.innerHTML='<div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>';
+    msgs.appendChild(d);scrollDown();
   }
 }
 
-function setStatus(t, c) {
-  var s = document.getElementById('status');
-  s.textContent = t;
-  s.style.color = c || '#10b981';
-}
+function setStatus(t,c){var s=document.getElementById('st');s.textContent=t;s.style.color=c||'#10b981';}
 
-async function tryModel(i, messages) {
-  if (i >= MODELS.length) return null;
-  try {
-    var r = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + key,
-        'HTTP-Referer': location.href,
-        'X-Title': 'G PAT AI'
-      },
-      body: JSON.stringify({
-        model: MODELS[i],
-        messages: messages,
-        max_tokens: 500
-      })
+async function tryModel(i,messages){
+  if(i>=MODELS.length)return null;
+  try{
+    var r=await fetch('https://openrouter.ai/api/v1/chat/completions',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+key,'HTTP-Referer':location.href,'X-Title':'G PAT AI'},
+      body:JSON.stringify({model:MODELS[i],messages:messages,max_tokens:500,temperature:0.8})
     });
-    var d = await r.json();
-    if (d.choices && d.choices[0] && d.choices[0].message && d.choices[0].message.content) {
-      cm = i;
-      return d.choices[0].message.content;
-    }
-    return await tryModel(i + 1, messages);
-  } catch(e) {
-    return await tryModel(i + 1, messages);
-  }
+    var d=await r.json();
+    if(d.choices&&d.choices[0]&&d.choices[0].message&&d.choices[0].message.content){cm=i;return d.choices[0].message.content;}
+    return await tryModel(i+1,messages);
+  }catch(e){return await tryModel(i+1,messages);}
 }
 
-async function go(txt) {
-  if (busy) return;
-  var text = txt !== undefined ? txt : ta.value.trim();
-  if (!text) return;
-  ta.value = '';
-  ta.style.height = 'auto';
-  busy = true;
-  setStatus('⏳ Soch raha hun...', '#f59e0b');
-  addMsg('user', text);
-  hist.push({ role: 'user', content: text });
+async function go(txt){
+  if(busy)return;
+  var text=txt!==undefined?txt:ta.value.trim();
+  if(!text)return;
+  ta.value='';ta.style.height='auto';
+  busy=true;
+  setStatus('⏳ Soch raha hun...','#f59e0b');
+  addMsg('user',text);
+  hist.push({role:'user',content:text});
   showTyping(true);
-  var msgs = [{ role: 'system', content: sys() }].concat(hist);
-  var reply = await tryModel(cm, msgs);
+  var msgs=[{role:'system',content:sys()}].concat(hist);
+  var reply=await tryModel(cm,msgs);
   showTyping(false);
-  if (reply) {
-    hist.push({ role: 'assistant', content: reply });
-    addMsg('assistant', reply);
-    setStatus('✅ Connected • G PAT AI • FREE');
+  if(reply){
+    hist.push({role:'assistant',content:reply});
+    addMsg('assistant',reply);
+    setStatus('✅ Connected • FREE');
   } else {
-    setStatus('❌ Key kaam nahi kar rahi', '#ef4444');
-    addMsg('assistant', name + ', API Key mein problem hai. openrouter.ai/keys pe nai key banao. 🙏');
+    setStatus('❌ Key problem!','#ef4444');
+    addMsg('assistant',name+', API Key kaam nahi kar rahi. ⚙️ Settings > API Key Change karo. 🙏');
   }
-  busy = false;
+  busy=false;
 }
 
-function newChat() {
-  hist = []; busy = false; cm = 0;
-  setStatus('✅ Ready');
-  var msgs = document.getElementById('msgs');
-  msgs.innerHTML = '<div class="welcome" id="wel"><div class="big">🌀</div><h3>Namaste ' + name + '! 😊</h3><p>Kya baat karni hai aaj?</p><div class="qgrid"><button class="qbtn" onclick="qs(\'Mujhe bahut stress ho raha hai\')">😔 Stress</button><button class="qbtn" onclick="qs(\'Career advice chahiye\')">💼 Career</button><button class="qbtn" onclick="qs(\'Bas baat karni hai\')">💬 Baat</button><button class="qbtn" onclick="qs(\'Relationship problem hai\')">❤️ Relationship</button></div></div>';
+function newChat(){
+  hist=[];busy=false;cm=0;
+  setStatus('✅ Ready • G PAT AI • FREE');
+  var msgs=document.getElementById('msgs');
+  msgs.innerHTML='<div class="welcome" id="wel"><div class="big">🌀</div><h3>Namaste '+name+'! 😊</h3><p>Kya baat karni hai aaj?</p><div class="qgrid"><button class="qbtn" onclick="go(\'Mujhe bahut stress ho raha hai\')">😔 Stress</button><button class="qbtn" onclick="go(\'Career advice chahiye\')">💼 Career</button><button class="qbtn" onclick="go(\'Bas baat karni hai\')">💬 Baat</button><button class="qbtn" onclick="go(\'Relationship problem hai\')">❤️ Relationship</button></div></div>';
 }
 </script>
 </body>
