@@ -187,15 +187,9 @@ body{font-family:'Inter','Noto Sans Devanagari',sans-serif;background:#0a0a0a;co
   </div>
   <span class="lbl">नाम / Name</span>
   <input class="ifield" type="text" id="nInp" placeholder="Swikrit..."/>
-  <div class="sbox">
-    <div class="stitle">🔑 Free Groq API Key</div>
-    <div class="sr"><div class="snum">1</div><div><a href="https://console.groq.com" target="_blank">console.groq.com</a> → Google Login</div></div>
-    <div class="sr"><div class="snum">2</div><div>API Keys → Create Key → Copy (gsk_...)</div></div>
-  </div>
-  <span class="lbl">Groq API Key</span>
-  <input class="ifield" type="password" id="kInp" placeholder="gsk_..."/>
-  <button class="gobtn" onclick="doStart()">→ शुरू करें</button>
-  <div class="nte">🔒 Key सिर्फ आपके phone में रहेगी</div>
+
+  <button class="gobtn" onclick="doStart()">🚀 G PAT AI शुरू करें</button>
+  <div class="nte">🔒 G PAT AI • बिल्कुल FREE • किसी key की जरूरत नहीं!</div>
 </div>
 </div>
 
@@ -324,7 +318,7 @@ if('serviceWorker' in navigator){
   });
 }
 
-var hist=[],busy=false,key='',name='',lang='hi',sty='r',ic=0,voiceOn=true,rec=false,recog=null;
+var hist=[],busy=false,key='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',name='',lang='hi',sty='r',ic=0,voiceOn=true,rec=false,recog=null;
 
 var STYS={r:'photorealistic, ultra detailed, 8k, professional photo',a:'anime style, manga, vibrant colors, Studio Ghibli',d:'digital art, concept art, highly detailed',c:'cartoon style, colorful, animated, fun',3:'3D render, CGI, octane render, volumetric lighting','p':'oil painting, brushstrokes, classical art'};
 
@@ -357,15 +351,15 @@ function swTab(t){
 }
 
 window.onload=function(){
-  var k=localStorage.getItem('gk'),n=localStorage.getItem('gn'),l=localStorage.getItem('gl')||'hi',v=localStorage.getItem('gv');
+  var n=localStorage.getItem('gn'),l=localStorage.getItem('gl')||'hi',v=localStorage.getItem('gv');
   lang=l;voiceOn=v!=='off';
-  if(k&&n){key=k;name=n;launch();}
+  if(n){name=n;launch();}
 };
 
 function doStart(){
-  var n=document.getElementById('nInp').value.trim(),k=document.getElementById('kInp').value.trim();
-  if(!n){alert('नाम डालो!');return;}if(!k){alert('API Key डालो!');return;}
-  name=n;key=k;localStorage.setItem('gk',k);localStorage.setItem('gn',n);localStorage.setItem('gl',lang);launch();
+  var n=document.getElementById('nInp').value.trim();
+  if(!n){alert('अपना नाम डालो!');return;}
+  name=n;localStorage.setItem('gn',n);localStorage.setItem('gl',lang);launch();
 }
 
 function launch(){
@@ -384,8 +378,8 @@ function launch(){
 
 function oSet(){document.getElementById('smenu').classList.add('on');document.getElementById('sov').classList.add('on');}
 function cSet(){document.getElementById('smenu').classList.remove('on');document.getElementById('sov').classList.remove('on');}
-function chgKey(){cSet();var k=prompt('New Groq Key (gsk_...):');if(k&&k.trim()){key=k.trim();localStorage.setItem('gk',key);alert('✅ Done!');}}
-function doLogout(){if(confirm('Logout?')){localStorage.removeItem('gk');localStorage.removeItem('gn');location.reload();}}
+function chgKey(){alert('G PAT AI Free hai! Koi key ki zaroorat nahi.');}
+function doLogout(){if(confirm('Logout?')){localStorage.removeItem('gn');location.reload();}}
 
 // Voice INPUT
 function togMic(){if(rec){stopMic();}else{startMic();}}
